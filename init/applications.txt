@@ -1,5 +1,5 @@
 1Password.app
-Arc.app
+Arc.app # https://company.us6.list-manage.com/track/click?u=73c2f0478f1b3cd8343ae8f45&id=98052890dc&e=353894528c
 Battery Indicator.app
 BetterTouchTool.app
 Copilot.app
@@ -8,18 +8,11 @@ Docker.app
 Dozer.app
 Fantastical.app
 Figma.app
-GarageBand.app
 Google Chrome.app
-Keynote.app
-LaunchBar.app
 Loom.app
-Noto.app
-Numbers.app
 Opal.app
-Pages.app
 Postman.app
 Raycast.app
-Safari.app
 ScreenFlow.app
 Slack.app
 Spark.app
@@ -28,5 +21,4 @@ Telegram.app
 Transmit.app
 Utilities
 Visual Studio Code.app
-iMovie.app
 zoom.us.app
