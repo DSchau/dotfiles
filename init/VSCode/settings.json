@@ -1,0 +1,15 @@
+{
+    "editor.tabSize": 2,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "workbench.startupEditor": "newUntitledFile",
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.minimap.enabled": false,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.colorTheme": "Dracula",
+    "editor.inlineSuggest.enabled": true,
+    "security.workspace.trust.untrustedFiles": "open"
+}

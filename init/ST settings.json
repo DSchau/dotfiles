@@ -1,0 +1,32 @@
+{
+  "bold_folder_labels": true,
+  "color_scheme": "Packages/Monokai Extended/Monokai Extended.tmTheme",
+  "default_line_ending": "unix",
+  "file_exclude_patterns":
+  [
+    ".gitattributes",
+    ".*tmp",
+    ".__*",
+    "._*",
+    ".*DS_Store"
+  ],
+  "folder_exclude_patterns":
+  [
+    ".git",
+    ".sass-cache",
+    ".tmp"
+  ],
+  "font_face": "Source Code Pro",
+  "font_size": 11,
+  "highlight_modified_tabs": true,
+  "ignored_packages":
+  [
+    "Vintage"
+  ],
+  "open_files_in_new_window": false,
+  "show_tab_close_buttons": false,
+  "soda_folder_icons": true,
+  "tab_size": 2,
+  "theme": "Soda Dark 3.sublime-theme",
+  "translate_tabs_to_spaces": true
+}
