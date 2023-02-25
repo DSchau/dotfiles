@@ -19,6 +19,9 @@
     # checkout
     co = checkout
 
+    # commit
+    ci = commit
+
 	# Commit all changes.
 	ca = !git add -A && git commit -av
 
