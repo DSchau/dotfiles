@@ -20,6 +20,11 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # https://macos-defaults.com/                                                 #
 ###############################################################################
 
+# command-line tools for development
+if [ [! -d /Library/Developer/CommandLineTools] ]; then
+    xcode-select --install
+fi
+
 # Set computer name (as done via System Preferences → Sharing)
 sudo scutil --set ComputerName "dschau"
 sudo scutil --set HostName "dschau"
