@@ -1,6 +1,6 @@
 # Dustin's dotfiles (fork of mathias')
 
-![Screenshot of my shell prompt](https://i.imgur.com/EkEtphC.png)
+![Screenshot of my shell prompt](https://i.imgur.com/xEPOKcF.png)
 
 ## Installation
 
