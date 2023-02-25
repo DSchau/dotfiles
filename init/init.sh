@@ -64,17 +64,6 @@ echo "Please make sure to add these credentials to Github"
 open https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
 
 ###############################################################################
-# Homebrew                                                                    #
-###############################################################################
-
-which -s brew
-if [[ $(command -v brew) == "" ]]; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-  echo "brew is installed. Skipping!"
-fi
-
-###############################################################################
 # ZSH                                                                         #
 ###############################################################################
 

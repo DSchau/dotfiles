@@ -6,6 +6,12 @@
 
 echo "Updating to the latest homebrew"
 
+if [[ $(command -v brew) == "" ]]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+    echo "brew is installed. Skipping!"
+fi
+
 # Make sure we’re using the latest Homebrew.
 brew update
 
