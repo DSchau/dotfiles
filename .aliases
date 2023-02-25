@@ -78,3 +78,7 @@ alias reload="exec ${SHELL} -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
+
+# home theater pc
+alias htpc='ssh dschau@67.3.169.164 -t "tmux new-session -A -s HTPC"'
+
