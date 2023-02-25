@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-# Install command-line tools using Homebrew.
+############################################
+# Homebrew                                 #
+############################################
 
 # Make sure we’re using the latest Homebrew.
 brew update
@@ -93,6 +95,16 @@ brew install ssh-copy-id
 brew install tree
 brew install vbindiff
 brew install zopfli
+
+# Programming tools
+brew install awscli
+brew install jq
+brew install kubernetes-cli
+brew install just
+brew install rust
+
+# menubar utility to hide icons
+brew install --cask dozer
 
 # Remove outdated versions from the cellar.
 brew cleanup
