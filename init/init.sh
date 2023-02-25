@@ -5,7 +5,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # create symlink
 ## create a symlink since it's easier / more discoverable to edit from home dir
-ln -s ${HOME}/Projects/Personal/dotfiles ${HOME}/dotfiles
+ln -sf ${HOME}/Projects/Personal/dotfiles ${HOME}/dotfiles
 
 # create project directories
 CODE=${HOME}/Projects
@@ -32,6 +32,17 @@ cp -r ${SCRIPT_DIR}/VSCode/. ${HOME}/Library/Application\ Support/Code/User/
 # Source Code Pro
 
 ###############################################################################
+# Homebrew                                                                    #
+###############################################################################
+
+which -s brew
+if [[ $(command -v brew) == "" ]]; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+  echo "brew is installed. Skipping!"
+fi
+
+###############################################################################
 # ZSH                                                                         #
 ###############################################################################
 
@@ -40,3 +51,11 @@ if [ ! -d ${HOME}/.oh-my-zsh ]; then
 else
   echo "ZSH already installed. Skipping!"
 fi
+
+###############################################################################
+# Applications                                                                #
+###############################################################################
+echo "Make sure to install these applications (./init/applications.txt):"
+cat ${SCRIPT_DIR}/applications.txt
+
+echo "✅ And we're done. Thanks!"

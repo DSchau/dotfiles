@@ -1,0 +1,32 @@
+1Password.app
+Arc.app
+Battery Indicator.app
+BetterTouchTool.app
+Copilot.app
+Discord Canary.app
+Docker.app
+Dozer.app
+Fantastical.app
+Figma.app
+GarageBand.app
+Google Chrome.app
+Keynote.app
+LaunchBar.app
+Loom.app
+Noto.app
+Numbers.app
+Opal.app
+Pages.app
+Postman.app
+Raycast.app
+Safari.app
+ScreenFlow.app
+Slack.app
+Spark.app
+Spotify.app
+Telegram.app
+Transmit.app
+Utilities
+Visual Studio Code.app
+iMovie.app
+zoom.us.app
