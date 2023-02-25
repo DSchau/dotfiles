@@ -100,6 +100,7 @@ brew install zopfli
 
 # Programming tools
 brew install awscli
+brew install cloudflared
 brew install jq
 brew install kubernetes-cli
 brew install just

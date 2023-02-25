@@ -32,6 +32,37 @@ cp -r ${SCRIPT_DIR}/VSCode/. ${HOME}/Library/Application\ Support/Code/User/
 # Source Code Pro
 
 ###############################################################################
+# Git Setup                                                                   #
+###############################################################################
+
+SSH_FILE=${HOME}/.ssh/config
+
+ssh-keygen -t ed25519 -C "dustinschau@gmail.com"
+eval "$(ssh-agent -s)"
+
+if [ ! -f "$SSH_FILE" ]; then
+  touch $SSH_FILE
+else
+  echo "~/.ssh/config exists"
+fi
+
+cat <<EOF >> $SSH_FILE
+# Cloudflare Tunnel
+Host ssh.dschau.dev
+  ProxyCommand /opt/homebrew/bin/cloudflared access ssh --hostname %h
+
+# GitHub
+Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+EOF
+
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+
+open https://github.com/dschau
+
+###############################################################################
 # Homebrew                                                                    #
 ###############################################################################
 
