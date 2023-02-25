@@ -82,4 +82,4 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # home theater pc
 alias htpc='ssh dschau@67.3.169.164 -t "tmux new-session -A -s HTPC"'
-
+alias htpc_remote='ssh dschau@ssh.dschau.dev -t "tmux new-session -A -s HTPC"'
