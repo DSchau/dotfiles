@@ -5,7 +5,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # create symlink
 ## create a symlink since it's easier / more discoverable to edit from home dir
-ln -sf ${HOME}/Projects/Personal/dotfiles ${HOME}/dotfiles
+ln -s ${HOME}/Projects/Personal/dotfiles ${HOME}/dotfiles
 
 # create project directories
 CODE=${HOME}/Projects

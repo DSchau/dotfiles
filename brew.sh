@@ -41,7 +41,8 @@ brew install wget
 brew install gnupg
 
 # Install more recent versions of some macOS tools.
-brew install vim --with-override-system-vi
+brew install vim
+echo 'If you would like to map vi so it opens the brew-installed vim: ln -s /usr/local/bin/vim /usr/local/bin/vi'
 brew install grep
 brew install openssh
 brew install screen
@@ -85,7 +86,7 @@ brew install ack
 brew install git
 brew install git-lfs
 brew install gs
-brew install imagemagick --with-webp
+brew install imagemagick
 brew install lua
 brew install lynx
 brew install p7zip
