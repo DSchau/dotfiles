@@ -73,6 +73,15 @@ else
   echo "ZSH already installed. Skipping!"
 fi
 
+
+###############################################################################
+# NVM / Node                                                                         #
+###############################################################################
+
+if [[ $(command -v brew) == "" ]]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+fi
+
 ###############################################################################
 # Applications                                                                #
 # https://github.com/mas-cli/mas >> could be useful?
