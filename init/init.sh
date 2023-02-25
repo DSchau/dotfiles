@@ -60,7 +60,8 @@ EOF
 
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 
-open https://github.com/dschau
+echo "Please make sure to add these credentials to Github"
+open https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
 
 ###############################################################################
 # Homebrew                                                                    #
