@@ -87,7 +87,6 @@ fi
 # Applications                                                                #
 # https://github.com/mas-cli/mas >> could be useful?
 ###############################################################################
-echo "Make sure to install these applications (./init/applications.txt):"
-cat ${SCRIPT_DIR}/applications.txt
+source ${SCRIPT_DIR}/check-apps.sh
 
 echo "✅ And we're done. Thanks!"

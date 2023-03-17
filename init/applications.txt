@@ -2,8 +2,6 @@
 Arc.app # https://company.us6.list-manage.com/track/click?u=73c2f0478f1b3cd8343ae8f45&id=98052890dc&e=353894528c
 Battery Indicator.app
 BetterTouchTool.app
-Copilot.app
-Discord Canary.app
 Docker.app
 Dozer.app
 Fantastical.app
@@ -11,14 +9,9 @@ Figma.app
 Google Chrome.app
 Loom.app
 Opal.app
-Postman.app
 Raycast.app
-ScreenFlow.app
 Slack.app
-Spark.app
+Spark Desktop.app
 Spotify.app
-Telegram.app
-Transmit.app
-Utilities
 Visual Studio Code.app
 zoom.us.app
