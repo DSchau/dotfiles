@@ -8,7 +8,7 @@ _Note: this is a fork of [mathiasbyrnes/dotfiles](https://github.com/mathiasbyne
 
 **Warning:** If you want to give these dotfiles a try, you should first fork this repository, review the code, and remove things you don’t want or need. Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
-1. Clone this repo
+1. Clone this repo: `git clone https://github.com/DSchau/dotfiles.git`
 1. Run the init script: `./init/init.sh`
     - This will install some things like ZSH, homebrew, configure folders, etc.
 1. Run the bootstrap script: `./bootstrap.sh`
