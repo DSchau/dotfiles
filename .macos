@@ -21,8 +21,8 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 # command-line tools for development
-if [ [! -d /Library/Developer/CommandLineTools] ]; then
-    xcode-select --install
+if [ ! -d "/Library/Developer/CommandLineTools" ]; then
+	xcode-select --install
 fi
 
 # Set computer name (as done via System Preferences → Sharing)
@@ -249,6 +249,36 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #
 ###############################################################################
+
+# Set Dock Icons to be simplified and default apps of ~10 apps instead of the default ones
+defaults delete com.apple.dock persistent-apps
+defaults delete com.apple.dock recent-apps
+
+dock_item() {
+    echo "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>$1</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
+}
+
+# note: no commas between items
+dock_items=(
+	"/Applications/Arc.app"
+	"/Applications/Spotify.app"
+	"/Applications/Spark Desktop.app"
+	"/Applications/Slack.app"
+	"/System/Applications/Utilities/Terminal.app"
+	"/Applications/Visual Studio Code.app"
+	"/System/Applications/Messages.app"
+)
+
+# very important, keep this dock_items quoted!
+for item in "${dock_items[@]}"; do
+	if [ ! -d "$item" ]; then
+		echo "⚠️ Warning: $item does not exist"
+	else
+		defaults write com.apple.dock persistent-apps -array-add "$(dock_item "$item")"
+	fi
+done
+
+killall Dock
 
 # Enable highlight hover effect for the grid view of a stack (Dock)
 defaults write com.apple.dock mouse-over-hilite-stack -bool true
