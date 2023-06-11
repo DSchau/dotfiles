@@ -104,8 +104,26 @@ wget 'https://cdn.flexibits.com/Fantastical_3.7.14.zip' \
   --header 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
   -P "${APP_DIR}"
 
+wget 'https://downloads.1password.com/mac/1Password.zip' \
+  --header 'authority: downloads.1password.com' \
+  --header 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \
+  --header 'accept-language: en-US,en;q=0.9' \
+  --header 'cookie: _d1=v; _fturl=https://1password.com/downloads/mac/?utm_source=google&utm_medium=cpc&utm_campaign=18388341772&utm_content=&utm_term=&gclid=CjwKCAjwvpCkBhB4EiwAujULMtAW4jqSbPS1h6Rj9xUbxGT5yRSP63SFjLAqnnbGw2_-_sNbsZsBYhoC5WsQAvD_BwE&gclsrc=aw.ds; _ga=GA1.2.1431933198.1686455910; _gid=GA1.2.569977866.1686455910; _gac_UA-435167-16=1.1686455910.CjwKCAjwvpCkBhB4EiwAujULMtAW4jqSbPS1h6Rj9xUbxGT5yRSP63SFjLAqnnbGw2_-_sNbsZsBYhoC5WsQAvD_BwE; _gat=1; ref=gclid=CjwKCAjwvpCkBhB4EiwAujULMtAW4jqSbPS1h6Rj9xUbxGT5yRSP63SFjLAqnnbGw2_-_sNbsZsBYhoC5WsQAvD_BwE; _cc=V; _fs=269ea680-337f-4127-b43a-4239ec384638; _gali=mac' \
+  --header 'dnt: 1' \
+  --header 'referer: https://1password.com/downloads/mac/?utm_source=google&utm_medium=cpc&utm_campaign=18388341772&utm_content=&utm_term=&gclid=CjwKCAjwvpCkBhB4EiwAujULMtAW4jqSbPS1h6Rj9xUbxGT5yRSP63SFjLAqnnbGw2_-_sNbsZsBYhoC5WsQAvD_BwE&gclsrc=aw.ds' \
+  --header 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114"' \
+  --header 'sec-ch-ua-mobile: ?0' \
+  --header 'sec-ch-ua-platform: "macOS"' \
+  --header 'sec-fetch-dest: document' \
+  --header 'sec-fetch-mode: navigate' \
+  --header 'sec-fetch-site: same-site' \
+  --header 'sec-fetch-user: ?1' \
+  --header 'upgrade-insecure-requests: 1' \
+  --header 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
+  --compressed
+
 ## Unzip the zip files
-pushd "$APP_DIR" > /dev/null
+pushd "${APP_DIR}" > /dev/null
 
 # Check if there are any zip files in the directory
 if ls *.zip 1> /dev/null 2>&1; then
