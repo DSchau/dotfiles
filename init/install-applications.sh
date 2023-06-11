@@ -18,7 +18,7 @@ wget 'https://az764295.vo.msecnd.net/stable/b380da4ef1ee00e224a15c1d4d9793e27c2b
   -H 'sec-fetch-site: cross-site' \
   -H 'upgrade-insecure-requests: 1' \
   -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
-  -O "${APP_DIR}" 
+  -P "${APP_DIR}" 
 
 # SPOTIFY
 wget 'https://download.scdn.co/SpotifyInstaller.zip' \
@@ -36,7 +36,7 @@ wget 'https://download.scdn.co/SpotifyInstaller.zip' \
   -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114"' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "macOS"' \
-  -O "${APP_DIR}" 
+  -P "${APP_DIR}" 
 
 # ARC
 wget 'https://arc.net/release/Arc-latest.dmg' \
@@ -46,7 +46,7 @@ wget 'https://arc.net/release/Arc-latest.dmg' \
   -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114"' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "macOS"' \
-  -O "${APP_DIR}" 
+  -P "${APP_DIR}" 
 
 # SPARK
 wget 'https://downloads.sparkmailapp.com/Spark3/mac/dist/3.5.2.49597/Spark.dmg' \
@@ -65,7 +65,7 @@ wget 'https://downloads.sparkmailapp.com/Spark3/mac/dist/3.5.2.49597/Spark.dmg' 
   -H 'sec-fetch-user: ?1' \
   -H 'upgrade-insecure-requests: 1' \
   -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
-  -O "${APP_DIR}" 
+  -P "${APP_DIR}" 
 
 # Raycast
 wget 'https://u15802931.ct.sendgrid.net/ls/click?upn=6jEkpzZJ1YxiRMEOH3-2FVmVWsnYC0pL9UHwky5uZfr6qvelDJvEu7HwWwEygPNeQvHXjW_8DvO0oRfE93HwyucNGbr4LP6tNyhdLX8JW5q6YbiEWb9ghAGMuK08vTEWLe9UhT4w9LXZzcGscm-2BNonNw-2FhHGbECoz-2FaMCwER616tSN8JspDkqlj4M29XpLb4rl8R4rq5O7WHlQEXCSxhyY4-2BEFG5XvS5C9mKHwMoVB-2FJJ7SM-2F4tSpqpWVQOVwj-2F77vixxis3aFaHUQ4mrBC5hcvzwvQg2TbK2ev9m9wyKm33J-2BznxZr4Dhb6-2BY-2BcJec3rk1w2XjBBgmeGJt0IqubacKoCIxUUMLcol2rIQDzeYZBjH709veS98RYUAtSIt6r8x-2FAi6LXag9DCN2qMDoQaI7eILWos3CJ6Tx4xqLoVsL5NmSa3MPqUUtsl0IsRO3blOX6mS-2FjXh8EbUm4Tqe0-2Bp7LEpXgHOJHyGkw6viLAFOVXHBu7H8CYrmBprZIJw-2Bu-2FZLj7KA2xRelsbgBl4I8n9wVy7B4LEbg3O8lw-2BwrDtkx7Gml9Ag5RFFzGlDqvXSp3YMIgLOLpRRj7DWj-2FU-2BqQICzQnFTvTSKp-2F0EXrf9AKTngOiE6GUUmzSHGr2yPU3bBMIjpMVKrBnCKs99nTCcZCm-2FVXL208sm-2B1RbczwwQkQ3kRpIgu4liDnGzLldjFxMBl9tfivuwRh6CtvBSlOLJ8EMX-2Fqw-2FUGgtMZp4Va8kYmkJFCSj-2BVTe5-2B8fFy-2FwqRzUXnFRLPWyoRZCNi-2BveOjoM9FUNpV0WWPxsFGbyvQuxumSBaeEOpVdq7CWKg86-2Fx79YVJe7Yw7peB13zJE-2FUdssRu7qOlGxR9etr65Z0npNhkRsbYNAlpdNhx0Hy4EyDBUQ0a9elGB6EGNJ1GGFlVWPBVHe2rfwaDzgp7bTcHhhT4OXOgXtOD9W4h-2FuL3HTzBiK69hZnnBbIH0F7mI9C4yNVxf2Ci7QOfSEADS4XIolWtLD6c-2BC-2FA5YRTi5iSoAH6YMLq3zIpaILBLqugWeV5GpfROtCZUTWPBvNxoZqXO1BSpVJAi4XNreeUw-2FSfnC3sgvJTeGIGOnUCpcKyegtPryPBRnjCS18yAbi47cHSNUKHdUPKr5kpIRhpP8nkbkQli-2Ftn-2F0P'  -H 'authority: downloads.sparkmailapp.com' \
@@ -101,7 +101,7 @@ wget 'https://cdn.flexibits.com/Fantastical_3.7.14.zip' \
   -H 'sec-fetch-user: ?1' \
   -H 'upgrade-insecure-requests: 1' \
   -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
-  -O "${APP_DIR}" 
+  -P "${APP_DIR}" 
 
 wget 'https://downloads.1password.com/mac/1Password.zip' \
   -H 'authority: downloads.1password.com' \
@@ -119,7 +119,7 @@ wget 'https://downloads.1password.com/mac/1Password.zip' \
   -H 'sec-fetch-user: ?1' \
   -H 'upgrade-insecure-requests: 1' \
   -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
-  -O "${APP_DIR}" 
+  -P "${APP_DIR}" 
 
 wget 'https://cdn.zoom.us/prod/5.14.10.19202/zoomusInstallerFull.pkg' \
   -H 'authority: cdn.zoom.us' \
@@ -155,7 +155,7 @@ wget 'https://folivora.ai/releases/BetterTouchTool.zip' \
   -H 'sec-fetch-user: ?1' \
   -H 'upgrade-insecure-requests: 1' \
   -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
-  -O "${APP_DIR}" 
+  -P "${APP_DIR}" 
 
 ## Unzip the zip files
 pushd "${APP_DIR}" > /dev/null
