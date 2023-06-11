@@ -1,5 +1,5 @@
 1Password.app
-Arc.app # https://company.us6.list-manage.com/track/click?u=73c2f0478f1b3cd8343ae8f45&id=98052890dc&e=353894528c
+Arc.app
 Battery Indicator.app
 BetterTouchTool.app
 Docker.app

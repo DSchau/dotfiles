@@ -16,6 +16,17 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###############################################################################
+# Installing Mac OS Applications                                              #
+###############################################################################
+
+read -p "Download Mac Applications (y/n)?" choice
+case "$choice" in 
+  y|Y ) sh "${SCRIPT_DIR}/init/install-applications.sh";;
+  n|N ) echo "Not installing. Continuing with rest of script.";;
+  * ) echo "invalid";;
+esac
+
+###############################################################################
 # General UI/UX                                                               #
 # https://macos-defaults.com/                                                 #
 ###############################################################################
