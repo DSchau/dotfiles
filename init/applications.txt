@@ -3,7 +3,7 @@ Arc.app
 Battery Indicator.app
 BetterTouchTool.app
 Docker.app
-Dozer.app
+Dozer.app # requires Rosetta, boo
 Fantastical.app
 Figma.app
 Google Chrome.app
