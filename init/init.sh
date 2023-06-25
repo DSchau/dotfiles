@@ -55,11 +55,12 @@ Host ssh.dschau.dev
 Host github.com
   IgnoreUnknown UseKeychain
   AddKeysToAgent yes
-  UseKeychain yes
+  # UseKeychain yes
   IdentityFile ~/.ssh/id_ed25519
 EOF
 
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev
 
 echo "Please make sure to add these credentials to Github"
 open https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account

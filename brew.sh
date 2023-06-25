@@ -32,6 +32,7 @@ brew install gnu-sed
 # Install a modern version of Bash.
 brew install bash
 brew install bash-completion2
+brew install exiftool
 
 # Install `wget`
 brew install wget
@@ -106,9 +107,10 @@ brew install kubernetes-cli
 brew install just
 brew install rust
 brew install bat # a way better "cat"
+brew install gh # github cli
 
 # menubar utility to hide icons
-brew install --cask dozer
+brew install --cask dozer # rosetta, boo
 
 # Remove outdated versions from the cellar.
 brew cleanup

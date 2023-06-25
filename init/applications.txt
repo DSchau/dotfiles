@@ -15,3 +15,8 @@ Spark Desktop.app
 Spotify.app
 Visual Studio Code.app
 zoom.us.app
+
+# Creative Suite
+Adobe Creative Cloud # make sure to download this first
+Adobe Photoshop
+Adobe Lightroom
