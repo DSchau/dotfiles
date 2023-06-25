@@ -11,7 +11,7 @@ mkdir -p "${OPTIMIZED_DIR}"
 # cd to source directory
 pushd "${PICTURES_DIR}" > /dev/null
 
-find "." -type f \( -iname "*.jpeg" -o -iname "*.jpg" -o -iname "*.heic" -o -iname "*.ARW" \) -print0 | while IFS= read -r -d $'\0' file
+find "." -type f \( -iname "*.jpeg" -o -iname "*.jpg" -o -iname "*.heic" -o -iname "*.arw" \) -print0 | while IFS= read -r -d $'\0' file
 do
   full_filename=$(basename "$file")
   filename="${full_filename%.*}"
