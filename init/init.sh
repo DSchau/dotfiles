@@ -20,6 +20,8 @@ mkdir -p ${CODE}/Scripts
 ###############################################################################
 cp -r ${SCRIPT_DIR}/scripts/. ${CODE}/Scripts
 
+
+
 ###############################################################################
 # VSCode                                                                      #
 ###############################################################################
@@ -51,6 +53,10 @@ if [ ! -f "$SSH_FILE" ]; then
 else
   echo "~/.ssh/config exists"
 fi
+
+# Create connection with remote PC
+## does not require password when ssh'ing to htpc
+ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev
 
 cat <<EOF >> $SSH_FILE
 # Cloudflare Tunnel
