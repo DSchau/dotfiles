@@ -25,8 +25,6 @@ while read -r line ; do
 
     file="$PICTURES_DIR/${full_filename}"
 
-    echo "THIS IS THE FILENAME: $filename"
-
     # add your logic here, $file variable contains the filename
     date=$(exiftool -DateTimeOriginal -s -s -s "$file" | awk '{print $1}')
     year=$(date -j -f "%Y" "$date" +"%Y")
