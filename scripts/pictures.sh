@@ -4,43 +4,56 @@
 OPTIMIZED_DIR="/Users/dustinschau/Pictures/Optimized"
 OUTPUT_DIR="${MEDIA_DIR}/Pictures"
 
-rsync -rav --progress --partial "${PICTURES_DIR}" "${OUTPUT_DIR}/Source"
+echo $PICTURES_DIR
+echo $OUTPUT_DIR
+echo $MEDIA_DIR
 
 mkdir -p "${OPTIMIZED_DIR}"
 
 # cd to source directory
 pushd "${PICTURES_DIR}" > /dev/null
 
-find "." -type f \( -iname "*.jpeg" -o -iname "*.jpg" -o -iname "*.heic" -o -iname "*.arw" \) -print0 | while IFS= read -r -d $'\0' file
-do
-  full_filename=$(basename "$file")
-  filename="${full_filename%.*}"
+rsync --omit-dir-times --dry-run --partial --archive --compress --itemize-changes "${PICTURES_DIR}" "${OUTPUT_DIR}/Source" | \
+while read -r line ; do
+  if [[ $line == "<f"* ]] ; then
+    # Extract the filename (9th field onward)
+    full_filename=${line#*<f+++++++ }
+    full_filename=$(echo "$full_filename" | cut -d'/' -f2-) # strips the first folder
 
-  # add your logic here, $file variable contains the filename
-  date=$(exiftool -DateTimeOriginal -s -s -s "$file" | awk '{print $1}')
-  year=$(date -j -f "%Y" "$date" +"%Y")
+    filename=$(basename "$full_filename")
+    filename_without_ext="${filename%.*}"
 
-  # Use the date and city name to form the new filename
-  base_filename=$(echo "${date} ${city}" | xargs)
+    file="$PICTURES_DIR/${full_filename}"
 
-  temp_filename="${filename}_optimized.jpg"
+    echo "THIS IS THE FILENAME: $filename"
 
-  # Convert the .heic file to .jpg using sips
-  sips -s format jpeg -s formatOptions 80 "$file" --out "$temp_filename"
+    # add your logic here, $file variable contains the filename
+    date=$(exiftool -DateTimeOriginal -s -s -s "$file" | awk '{print $1}')
+    year=$(date -j -f "%Y" "$date" +"%Y")
 
-  folder_name="${OPTIMIZED_DIR}/${year}"
+    temp_filename="${filename_without_ext}_optimized.jpg"
 
-  # Resize the .jpg file to a maximum width of 2000 pixels, maintaining the aspect ratio
-  # sips -Z 2000 "$temp_filename"
+    # Convert the input file to .jpg using sips
+    sips -s format jpeg -s formatOptions 80 "$file" --out "$temp_filename"
 
-  mkdir -p "$folder_name"
+    folder_name="${OPTIMIZED_DIR}/${year}"
 
-  # Move the .jpg file to the destination directory
-  mv "$temp_filename" "${folder_name}/${filename}.jpg"
+    # Resize the .jpg file to a maximum width of 2000 pixels, maintaining the aspect ratio
+    # sips -Z 2000 "$temp_filename"
+
+    mkdir -p "$folder_name"
+
+    # Move the .jpg file to the destination directory
+    mv "$temp_filename" "${folder_name}/${filename_without_ext}.jpg"
+  fi
 done
 
 # rsync the optimized files 
-rsync -rav --progress --partial "${OPTIMIZED_DIR}/." "${OUTPUT_DIR}/Optimized"
+rsync -rav --partial "${OPTIMIZED_DIR}/." "${OUTPUT_DIR}/Optimized"
+
+# rsync the raw, source files from memory card to NFS
+rsync -rav --partial --archive --compress --omit-dir-times "${PICTURES_DIR}" "${OUTPUT_DIR}/Source"
+
 ## uncomment the below for flat files
 # find "." -type f \( -iname "*.jpeg" -o -iname "*.jpg" -o -iname "*.heic" \) -exec rsync -a --progress {} dschau@10.193.1.250:/media/Pictures/ \;
 
