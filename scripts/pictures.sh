@@ -47,7 +47,7 @@ while read -r line ; do
 done
 
 # rsync the optimized files 
-rsync -rav --partial "${OPTIMIZED_DIR}/." "${OUTPUT_DIR}/Optimized"
+rsync -rav --partial --remove-source-files "${OPTIMIZED_DIR}/." "${OUTPUT_DIR}/Optimized"
 
 # rsync the raw, source files from memory card to NFS
 rsync -rav --partial --archive --compress --omit-dir-times --remove-source-files "${PICTURES_DIR}" "${OUTPUT_DIR}/Source"
