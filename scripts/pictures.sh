@@ -50,7 +50,7 @@ done
 rsync -rav --partial "${OPTIMIZED_DIR}/." "${OUTPUT_DIR}/Optimized"
 
 # rsync the raw, source files from memory card to NFS
-rsync -rav --partial --archive --compress --omit-dir-times "${PICTURES_DIR}" "${OUTPUT_DIR}/Source"
+rsync -rav --partial --archive --compress --omit-dir-times --remove-source-files "${PICTURES_DIR}" "${OUTPUT_DIR}/Source"
 
 ## uncomment the below for flat files
 # find "." -type f \( -iname "*.jpeg" -o -iname "*.jpg" -o -iname "*.heic" \) -exec rsync -a --progress {} dschau@10.193.1.250:/media/Pictures/ \;
