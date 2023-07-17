@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# this will be used for iCloud Photos
 OPTIMIZED_DIR="/Users/dustinschau/Pictures/Optimized"
 OUTPUT_DIR="${MEDIA_DIR}/Pictures"
 
