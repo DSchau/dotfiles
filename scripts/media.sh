@@ -3,7 +3,7 @@
 export VIDEO_DIR=/Volumes/Videos/PRIVATE/M4ROOT/CLIP
 export PICTURES_DIR="/Volumes/CFExpress A/DCIM"
 
-IP_ADDRESS=$(ifconfig en0 | grep inet | awk 'NR==2{print $2}' | cut -d"." -f1-3)
+IP_ADDRESS=$(ifconfig en0 | grep 'inet ' | cut -d"." -f1-3 | awk '{print $2}')
 
 # Conditionally set the hostname
 if [ "$IP_ADDRESS" = "10.193.1" ]; then
