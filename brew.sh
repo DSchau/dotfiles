@@ -111,6 +111,7 @@ brew install gh # github cli
 
 # menubar utility to hide icons
 brew install --cask dozer # rosetta, boo
+brew install --cask 1password/tap/1password-cli
 
 # Remove outdated versions from the cellar.
 brew cleanup
