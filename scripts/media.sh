@@ -3,6 +3,9 @@
 export VIDEO_DIR=/Volumes/Videos/PRIVATE/M4ROOT/CLIP
 export PICTURES_DIR="/Volumes/CFExpress A/DCIM"
 
+# just a hack to make it so that local shell scripts work
+PATH="$PWD:$PATH"
+
 IP_ADDRESS=$(ifconfig en0 | grep 'inet ' | cut -d"." -f1-3 | awk '{print $2}')
 
 # Conditionally set the hostname
