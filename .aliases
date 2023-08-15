@@ -80,3 +80,5 @@ alias path='echo -e ${PATH//:/\\n}'
 alias htpc='ssh dschau@10.193.1.250 -t "tmux new-session -A -s HTPC"'
 alias htpc_remote='ssh dschau@ssh.dschau.dev -t "tmux new-session -A -s HTPC"'
 alias media="sh $HOME/dotfiles/scripts/media.sh"
+alias pictures="sh $HOME/dotfiles/scripts/pictures.sh"
+alias video="sh $HOME/dotfiles/scripts/video.sh"
