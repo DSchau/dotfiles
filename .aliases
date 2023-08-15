@@ -11,6 +11,10 @@ alias dt="cd ~/Desktop"
 alias g="git"
 alias cat="bat"
 
+alias p="cd ~/Projects"
+alias pp="cd ~/Projects/Personal"
+alias w="cd ~/Projects/Work"
+
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"
@@ -50,9 +54,11 @@ alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup
 # Google Chrome
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
+# Arc
+alias arc='/Applications/Arc.app/Contents/MacOS/Arc'
+
 # Clean up LaunchServices to remove duplicates in the “Open With” menu
 alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
-
 
 # Empty the Trash on all mounted volumes and the main HDD.
 # Also, clear Apple’s System Logs to improve shell startup speed.
