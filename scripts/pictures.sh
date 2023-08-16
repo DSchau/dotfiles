@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# share common environment variables
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "$DIR/env.sh"
+
 OPTIMIZED_DIR="/Users/dustinschau/Pictures/Optimized"
 OUTPUT_DIR="${MEDIA_DIR}/Pictures"
 
