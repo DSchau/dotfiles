@@ -8,4 +8,4 @@ source "$DIR/env.sh"
 rsync "$VIDEO_DIR/." --progress --remove-source-files -rav --include "**/*.MP4" --exclude "*" "${MEDIA_DIR}/Videos/Home"
 
 # back up select iPhone Videos
-rsync "$HOME/Movies/Home" --progress --remove-source-files -rav --include "**/*.mp4" --exclude "*" "${MEDIA_DIR}/Videos/Home"
+rsync "$HOME/Movies/Home/" --progress --remove-source-files -rav --include "**/*.mp4" --exclude "*" "${MEDIA_DIR}/Videos/Home"
