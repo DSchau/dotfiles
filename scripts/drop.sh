@@ -6,7 +6,7 @@ INPUT_FOLDER="$HOME/Movies/Drop/"
 # Output folder where converted files will be stored
 OUTPUT_FOLDER="$HOME/Movies/Home"
 
-LOG_LEVEL="info"
+LOG_LEVEL="warning"
 
 # Ensure output folder exists
 mkdir -p "$OUTPUT_FOLDER"
