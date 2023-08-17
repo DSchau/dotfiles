@@ -16,7 +16,7 @@ find "$INPUT_FOLDER" -type f | while read -r file; do
     filename_no_ext="${filename%.*}"
     
     # Convert the file to mp4 format using ffmpeg
-    ffmpeg -i "$file" "$OUTPUT_FOLDER/$filename_no_ext.mp4"
+    ffmpeg -i "$file" "$OUTPUT_FOLDER/$filename_no_ext.mp4" -hide_banner -loglevel error
     
     # Check if the conversion was successful
     if [ $? -eq 0 ]; then
