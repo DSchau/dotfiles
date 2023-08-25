@@ -8,4 +8,13 @@ ssh "$SSH_CONNECTION_STRING" << 'EOF' > /Users/dustinschau/logs/htpc.log
 
   # Cloudflare R2
   rclone sync /media/Pictures/Optimized/ pictures:pictures --exclude .DS_Store --log-file /home/dschau/logs/rclone.log --config /home/dschau/.rclone.conf --log-level INFO
+
+  # Raw Camera Files
+  rclone sync /media/Pictures/Source/ raw:raw --exclude .DS_Store --log-file /home/dschau/logs/rclone.log --config /home/dschau/.rclone.conf --log-level INFO
+
+  # Videos / Home Movies (yes, actually)
+  rclone sync /media/Videos/ videos:videos --exclude .DS_Store --log-file /home/dschau/logs/rclone.log --config /home/dschau/.rclone.conf --log-level INFO
+
 EOF
+
+echo "✅ Successfully copied all files"
