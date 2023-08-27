@@ -82,8 +82,13 @@ alias reload="exec ${SHELL} -l"
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
+TMUX_COMMAND='tmux new-session -A -s HTPC'
+HTPC_IP='10.193.1.250'
+LOCAL_SSH="dschau@$HTPC_IP"
+REMOTE_SSH='dschau@ssh.dschau.dev'
+
 # home theater pc
-alias htpc='ping -c 1 -W 1 10.193.1.250 &>/dev/null && ssh dschau@10.193.1.250 -t "tmux new-session -A -s HTPC" || ssh dschau@ssh.dschau.dev -t "tmux new-session -A -s HTPC"'
+alias htpc="ping -c 1 -W 1 $HTPC_IP &>/dev/null && ssh $LOCAL_SSH -t $TMUX_COMMAND || ssh $REMOTE_SSH -t $TMUX_COMMAND"
 
 # media aliases, for local to HTPC
 alias media="sh $HOME/dotfiles/scripts/media.sh"
