@@ -80,5 +80,5 @@ if [ -f '/Users/dschau/Code/Dependencies/google-cloud-sdk/completion.zsh.inc' ];
 [ -s "/Users/dschau/.bun/_bun" ] && source "/Users/dschau/.bun/_bun"
 
 # Bun
-export BUN_INSTALL="/Users/dschau/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+export BUN_INSTALL="$HOME/.bun" 
+export PATH="$BUN_INSTALL/bin:$PATH" 
