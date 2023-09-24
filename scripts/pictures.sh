@@ -56,7 +56,7 @@ rsync -rav --partial --remove-source-files "${OPTIMIZED_DIR}/." "${OUTPUT_DIR}/O
 rsync -rav --partial --archive --compress --omit-dir-times --remove-source-files "${PICTURES_DIR}" "${OUTPUT_DIR}/Source"
 
 ## uncomment the below for flat files
-# find "." -type f \( -iname "*.jpeg" -o -iname "*.jpg" -o -iname "*.heic" \) -exec rsync -a --progress {} dschau@10.193.1.250:/media/Pictures/ \;
+# find "." -type f \( -iname "*.jpeg" -o -iname "*.jpg" -o -iname "*.heic" \) -exec rsync -a --progress {} "dschau@$HTPC_IP:/media/Pictures/" \;
 
 # Return to the original directory
 popd > /dev/null
