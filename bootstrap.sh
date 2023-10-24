@@ -11,6 +11,8 @@ function doIt() {
 		--exclude ".macos" \
     --exclude ".linux" \
 		--exclude "brew.sh" \
+		--exclude "git.sh" \
+		--exclude "git_repos.txt" \
 		--exclude "bootstrap.sh" \
 		--exclude "README.md" \
 		--exclude "LICENSE-MIT.txt" \

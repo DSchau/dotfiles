@@ -1,0 +1,7 @@
+# personal
+git@github.com:DSchau/blog.git
+git@github.com:DSchau/dustinschau.com.git
+git@github.com:DSchau/Riley-the-Robot.git
+
+# work
+git@github.com:postman-eng/postman-app.git
