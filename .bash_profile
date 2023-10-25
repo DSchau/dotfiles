@@ -15,6 +15,9 @@ export NVM_DIR="$HOME/.nvm"
 export BUN_INSTALL="$HOME/.bun" 
 export PATH="$BUN_INSTALL/bin:$PATH" 
 
+# feature: brew
+export PATH="/usr/local/bin:$PATH"
+
 # Case-insensitive globbing (used in pathname expansion)
 # shopt -s nocaseglob;
 

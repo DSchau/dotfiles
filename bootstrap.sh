@@ -18,6 +18,7 @@ function doIt() {
 		--exclude "LICENSE-MIT.txt" \
 		--exclude "init" \
 		--exclude "workflows" \
+		--exclude "dotfiles" \
 		-avh --no-perms . ~;
 	source ~/.bash_profile;
 }

@@ -280,7 +280,8 @@ dock_items=(
 	"/Applications/Slack.app"
 	"/System/Applications/Utilities/Terminal.app"
 	"/Applications/Visual Studio Code.app"
-	"/System/Applications/Messages.app"
+	"/Applications/Beeper.app"
+	"/Applications/Postman.app"
 )
 
 # very important, keep this dock_items quoted!
