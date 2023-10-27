@@ -195,6 +195,25 @@ wget 'https://download.beeper.com/mac' \
   -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
   -P "${APP_DIR}" 
 
+# Opal Composer
+wget 'https://updates.opal.camera/release/Opal_Composer_1.1.1_5.dmg' \
+  -H 'authority: cdn.zoom.us' \
+  -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \
+  -H 'accept-language: en-US,en;q=0.9' \
+  -H 'cookie: _ga=GA1.2.280239496.1686455954; _gid=GA1.2.271087769.1686455954; _gat_UA-50650355-1=1; _cs_c=0; _hjSessionUser_437270=eyJpZCI6ImFmM2E5YzUzLWY2NjQtNWM4MC04OWZhLWFiOWRhMjNjY2UyYSIsImNyZWF0ZWQiOjE2ODY0NTU5NTM5MTIsImV4aXN0aW5nIjpmYWxzZX0=; _hjFirstSeen=1; _hjIncludedInSessionSample_437270=0; _hjSession_437270=eyJpZCI6IjAzMjY3ZWRlLTY2YzYtNDhkZi04OTZiLTc3MGQ4N2FmYTM2OCIsImNyZWF0ZWQiOjE2ODY0NTU5NTM5MTYsImluU2FtcGxlIjpmYWxzZX0=; __zlcmid=1GJlt6DTlZrPgFI; OptanonAlertBoxClosed=2023-06-11T03:59:15.899Z; _gcl_au=1.1.61497082.1686455956; _cs_id=e4670bda-0602-aacf-a8aa-09b7d3eeeace.1686455953.1.1686455955.1686455953.1.1720619953749; _cs_s=2.5.0.1686457755920; _fbp=fb.1.1686455956001.1170140695; _zm_ssid=aw1_c_w8E4szYFQImQfU85_xMLHQ; _zm_ctaid=_88ZRkFMSrqdCOgqcYeXnQ.1686455960665.be26736681b214fd131dde6ec4f464a3; _zm_chtaid=625; _zm_mtk_guid=8f5498a7d8fa4c3aa0b2692e3b5fe54a; _zm_csp_script_nonce=dS3ea683SWGTy8mvtN1Xxg; _zm_currency=USD; _zm_visitor_guid=8f5498a7d8fa4c3aa0b2692e3b5fe54a; __cf_bm=UVh.aiuILYTnxv9OSUvxj.6KN7IZ09TcJhDcXzwq5qg-1686455960-0-Ae/9dJozwWgD0yaBgb4Xp55V4yXwm4olyT/uWzQCZm4bfg6tO/aEHkuInVX8UtJfUv5jqFRJpb3xNH63iPmhnxU=; _zm_page_auth=aw1_c_3IegUNmNR66L0ep9grvluw; _zm_lang=en-US; OnetrustActiveGroups=C0004C0003C0002C0001; OptanonConsent=isGpcEnabled=0&datestamp=Sat+Jun+10+2023+20%3A59%3A22+GMT-0700+(Pacific+Daylight+Time)&version=6.21.0&isIABGlobal=false&hosts=&consentId=a102417b-f5fe-4fa4-aa12-ba9d22fb92c9&interactionCount=1&landingPath=NotLandingPage&groups=C0004%3A1%2CC0003%3A1%2CC0002%3A1%2CC0001%3A1&geolocation=US%3BCA&AwaitingReconsent=false; _zm_cdn_blocked=unlog_unblk; _zm_tracking_guid=0bd9b19a27b5490a97c7fc7c817d2d87' \
+  -H 'dnt: 1' \
+  -H 'referer: https://zoom.us/' \
+  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: document' \
+  -H 'sec-fetch-mode: navigate' \
+  -H 'sec-fetch-site: same-site' \
+  -H 'sec-fetch-user: ?1' \
+  -H 'upgrade-insecure-requests: 1' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \
+  -P "${APP_DIR}" 
+
 ## Unzip the zip files
 pushd "${APP_DIR}" > /dev/null
 

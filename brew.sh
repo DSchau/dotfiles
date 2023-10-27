@@ -109,6 +109,8 @@ brew install rust
 brew install bat # a way better "cat"
 brew install gh # github cli
 brew install newman
+brew install postman
+brew install flyctl
 
 # menubar utility to hide icons
 brew install --cask dozer # rosetta, boo
