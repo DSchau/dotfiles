@@ -39,10 +39,22 @@ if [ ! -d "/Library/Developer/CommandLineTools" ]; then
 	xcode-select --install
 fi
 
+computer_name="dschau"
+suffix=""
+
+read -p "Work machine (y/n)?" choice
+case "$choice" in 
+  y|Y ) computer_name="dschau_work";;
+  n|N ) echo "Noted! Will set computer name to $computer_name";;
+  * ) echo "Try again. y or n";;
+esac
+
+echo "Setting computer name, host name, and local host name to $computer_name"
+
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName "dschau"
-sudo scutil --set HostName "dschau"
-sudo scutil --set LocalHostName "dschau"
+sudo scutil --set ComputerName "$computer_name"
+sudo scutil --set HostName "$computer_name"
+sudo scutil --set LocalHostName "$computer_name"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "dschau"
 
 # Disable the sound effects on boot
