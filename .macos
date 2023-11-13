@@ -292,7 +292,7 @@ dock_items=(
 	"/Applications/Slack.app"
 	"/System/Applications/Utilities/Terminal.app"
 	"/Applications/Visual Studio Code.app"
-	"/Applications/Messages.app"
+	"/System/Applications/Messages.app"
 	"/Applications/Postman.app"
 )
 
