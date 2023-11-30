@@ -115,6 +115,7 @@ brew install flyctl
 # menubar utility to hide icons
 brew install --cask dozer # rosetta, boo
 brew install --cask 1password/tap/1password-cli
+brew install --cask warp
 
 # Remove outdated versions from the cellar.
 brew cleanup
