@@ -111,6 +111,7 @@ brew install gh # github cli
 brew install newman
 brew install postman
 brew install flyctl
+brew install has
 
 # menubar utility to hide icons
 brew install --cask dozer # rosetta, boo

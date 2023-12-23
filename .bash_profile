@@ -18,6 +18,8 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # feature: brew
 export PATH="/usr/local/bin:$PATH"
 
+export HAS_ALLOW_UNSAFE=y
+
 # Case-insensitive globbing (used in pathname expansion)
 # shopt -s nocaseglob;
 
