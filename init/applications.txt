@@ -9,12 +9,14 @@ Figma.app
 Google Chrome.app
 Loom.app
 Opal.app
+Postman.app
 Raycast.app
 Slack.app
 Spark Desktop.app
 Spotify.app
 Visual Studio Code.app
 zoom.us.app
+Warp.app
 
 # Creative Suite
 Adobe Creative Cloud # make sure to download this first

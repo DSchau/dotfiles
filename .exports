@@ -38,3 +38,6 @@ export BASH_SILENCE_DEPRECATION_WARNING=1;
 
 # used for aliases like GET, POST, etc.
 export PERL_LWP_SSL_VERIFY_HOSTNAME=0;
+
+# feature: has, works for more global deps
+export HAS_ALLOW_UNSAFE=y
