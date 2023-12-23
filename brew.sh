@@ -119,3 +119,6 @@ brew install --cask warp
 
 # Remove outdated versions from the cellar.
 brew cleanup
+
+# note to Dustin: don't forget to run various things, e.g. install cloudflared login for ssh
+# cloudflared login
