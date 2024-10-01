@@ -14,11 +14,13 @@ mkdir -p $CODE
 mkdir -p ${CODE}/Personal
 mkdir -p ${CODE}/Work
 mkdir -p ${CODE}/Scripts
+mkdir -p ${HOME}/.config/ghostty
 
 ###############################################################################
 # Scripts                                                                     #
 ###############################################################################
 cp -r ${SCRIPT_DIR}/scripts/. ${CODE}/Scripts
+cp ${SCRIPT_DIR}/ghostty_config ${HOME}/.config/ghostty/config
 
 ###############################################################################
 # VSCode                                                                      #

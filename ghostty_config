@@ -1,0 +1,4 @@
+theme=Dracula+
+
+# quake-style open window on ~
+keybind = global:grave_accent=toggle_quick_terminal
