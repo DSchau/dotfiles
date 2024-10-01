@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export VIDEO_DIR=/Volumes/Videos/PRIVATE/M4ROOT/CLIP
-export PICTURES_DIR="/Volumes/CFExpress A/DCIM"
+export PICTURES_DIR="/Volumes/Videos/DCIM"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
