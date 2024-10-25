@@ -44,7 +44,7 @@ suffix=""
 
 read -p "Work machine (y/n)?" choice
 case "$choice" in 
-  y|Y ) computer_name="dschau_work";;
+  y|Y ) computer_name="dschau-work";;
   n|N ) echo "Noted! Will set computer name to $computer_name";;
   * ) echo "Try again. y or n";;
 esac
