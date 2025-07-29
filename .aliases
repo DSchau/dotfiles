@@ -13,7 +13,7 @@ alias cat="bat"
 
 alias p="cd ~/Projects"
 alias pp="cd ~/Projects/Personal"
-alias w="cd ~/Projects/Work"
+alias w="cd ~/Projects/Work/Postman"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
