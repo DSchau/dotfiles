@@ -60,3 +60,5 @@ rsync -rav --partial --archive --compress --omit-dir-times --remove-source-files
 
 # Return to the original directory
 popd > /dev/null
+
+echo "📸 Pictures sync complete."

@@ -6,7 +6,7 @@ echo "📝 Starting to copy all files on remote server: $SSH_CONNECTION_STRING"
 
 RCLONE_ARGS="--stats-one-line --stats 2s --exclude .DS_Store --log-file /home/dschau/logs/rclone.log --config /home/dschau/.rclone.conf --log-level INFO" 
 
-ssh -tt "$SSH_CONNECTION_STRING" << EOF > /Users/dustinschau/logs/htpc.log
+ssh -T "$SSH_CONNECTION_STRING" << EOF > /Users/dustinschau/logs/htpc.log
   # Google Photos
   rclone sync /media/Pictures/Optimized/ google-photos:album/Photography \
     --transfers=2 \
@@ -22,6 +22,7 @@ ssh -tt "$SSH_CONNECTION_STRING" << EOF > /Users/dustinschau/logs/htpc.log
 
   # Cloudflare R2
   rclone sync /media/Pictures/Optimized/ pictures:pictures $RCLONE_ARGS
+exit
 EOF
 
 echo "✅ Successfully copied all files"

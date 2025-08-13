@@ -21,7 +21,9 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 zstyle ':omz:update' frequency 14 # every two weeks
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_AUTO_UPDATE="true"
+DISABLE_COMPFIX="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -54,12 +56,20 @@ zstyle ':omz:update' frequency 14 # every two weeks
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# source from homebrew for custom plugins
+if [ -f '/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' ]; then source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; fi
+if [ -f '/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh' ]; then source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh; fi
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z)
+plugins=(
+  git z
+  zsh-autosuggestions
+  zsh-syntax-highlighting  # Always last!
+)
 
 source $ZSH/oh-my-zsh.sh
 

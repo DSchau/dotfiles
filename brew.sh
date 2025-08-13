@@ -113,6 +113,10 @@ brew install postman
 brew install flyctl
 brew install has
 
+# zsh
+brew install zsh-autosuggestions
+brew install zsh-syntax-highlighting
+
 # menubar utility to hide icons
 brew install --cask dozer # rosetta, boo
 brew install --cask 1password/tap/1password-cli
