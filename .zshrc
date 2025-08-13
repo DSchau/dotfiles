@@ -57,8 +57,8 @@ DISABLE_COMPFIX="true"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # source from homebrew for custom plugins
-if [ -f '/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' ]; then source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; fi
-if [ -f '/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh' ]; then source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh; fi
+if [ -f '/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' ]; then source "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; fi
+if [ -f '/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh' ]; then source "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; fi
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
