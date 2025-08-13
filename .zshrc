@@ -56,10 +56,6 @@ DISABLE_COMPFIX="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# source from homebrew for custom plugins
-if [ -f '/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' ]; then source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; fi
-if [ -f '/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh' ]; then source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"; fi
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -67,9 +63,16 @@ if [ -f '/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh' ]; the
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git z
-  zsh-autosuggestions
-  zsh-syntax-highlighting  # Always last!
 )
+
+# source from homebrew for custom plugins
+if [ -f "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+
+if [ -f "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -95,4 +98,3 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # uv
 export PATH="/Users/dschau/.local/bin:$PATH"
- 
