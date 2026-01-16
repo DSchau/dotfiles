@@ -19,7 +19,13 @@ function doIt() {
 		--exclude "init" \
 		--exclude "workflows" \
 		--exclude "dotfiles" \
+		--exclude ".claude" \
 		-avh --no-perms . ~;
+
+	# Sync Claude Code skills separately (preserves runtime data)
+	mkdir -p ~/.claude/commands;
+	rsync -avh --no-perms .claude/commands/ ~/.claude/commands/;
+
 	source ~/.bash_profile;
 }
 
