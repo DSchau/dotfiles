@@ -108,8 +108,6 @@ brew install just
 brew install rust
 brew install bat # a way better "cat"
 brew install gh # github cli
-brew install newman
-brew install postman
 brew install flyctl
 brew install has
 

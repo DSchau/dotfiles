@@ -293,7 +293,6 @@ dock_items=(
 	"/Applications/Ghostty.app"
 	"/Applications/Visual Studio Code.app"
 	"/System/Applications/Messages.app"
-	"/Applications/Postman.app"
 )
 
 # very important, keep this dock_items quoted!

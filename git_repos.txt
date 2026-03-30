@@ -1,7 +1,4 @@
 # personal
-git@github.com:DSchau/blog.git
-git@github.com:DSchau/dustinschau.com.git
-git@github.com:DSchau/Riley-the-Robot.git
+git@github.com:DSchau/personal-website-2024.git
 
 # work
-git@github.com:postman-eng/postman-app.git

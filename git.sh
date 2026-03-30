@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 BASE_DIR="$HOME/Projects"
-WORK_PATHS=("Gatsby" "Netlify" "Postman")
+WORK_PATHS=("Gatsby" "Netlify" "Postman" "Adapt")
 
-CURRENT_WORK="Postman"
+CURRENT_WORK="Adapt"
 
 mkdir -p "$BASE_DIR/Personal"
 mkdir -p "$BASE_DIR/Work"

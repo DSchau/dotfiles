@@ -9,7 +9,6 @@ Figma.app
 Google Chrome.app
 Loom.app
 Opal.app
-Postman.app
 Raycast.app
 Slack.app
 Spark Desktop.app
