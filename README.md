@@ -13,8 +13,8 @@ _Note: this is a fork of [mathiasbyrnes/dotfiles](https://github.com/mathiasbyne
     - This will install some things like ZSH, homebrew, configure folders, etc.
 1. Run the bootstrap script: `./bootstrap.sh`
     - This will copy over config files like .bashrc, .bash_profile, etc.
+1. Run the brew setup script: `./brew.sh`
 1. Run the macOS init script: `./.macos`
-2. Run the brew setup script: `./brew.sh`
 
 To update, `cd` into this local `dotfiles` repository and then:
 
