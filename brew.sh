@@ -120,6 +120,9 @@ brew install --cask dozer # rosetta, boo
 brew install --cask 1password/tap/1password-cli
 brew install --cask warp
 
+# ai tooling
+brew install claude-code
+
 # Remove outdated versions from the cellar.
 brew cleanup
 
