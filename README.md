@@ -16,6 +16,8 @@ _Note: this is a fork of [mathiasbyrnes/dotfiles](https://github.com/mathiasbyne
 1. Run the brew setup script: `./brew.sh`
 1. Run the macOS init script: `./.macos`
 
+1. Optionally set-up git and git repositories for local / project basis (`./git.sh`)
+
 To update, `cd` into this local `dotfiles` repository and then:
 
 ```bash

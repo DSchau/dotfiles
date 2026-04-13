@@ -3,6 +3,11 @@ APP_DIR="${HOME}/Downloads/Applications"
 
 mkdir -p ${APP_DIR}
 
+# ghostty, VScode, Cursor
+
+# configure Raycast, Ghostty, Bettertouchtool
+# configure accounts (Gmail, Fastmail, Work)
+
 # # VSCODE
 wget 'https://az764295.vo.msecnd.net/stable/b380da4ef1ee00e224a15c1d4d9793e27c2b6302/VSCode-darwin-arm64.zip' \
   -H 'authority: az764295.vo.msecnd.net' \
