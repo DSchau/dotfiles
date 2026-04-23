@@ -14,6 +14,7 @@ _Note: this is a fork of [mathiasbyrnes/dotfiles](https://github.com/mathiasbyne
 1. Run the bootstrap script: `./bootstrap.sh`
     - This will copy over config files like .bashrc, .bash_profile, etc.
 1. Run the brew setup script: `./brew.sh`
+1. Install macOS apps `./init/mas.sh`
 1. Run the macOS init script: `./.macos`
 
 1. Optionally set-up git and git repositories for local / project basis (`./git.sh`)

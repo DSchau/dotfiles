@@ -116,12 +116,37 @@ brew install zsh-autosuggestions
 brew install zsh-syntax-highlighting
 
 # menubar utility to hide icons
-brew install --cask dozer # rosetta, boo
+brew install --cask jordanbaird-ice
 brew install --cask 1password/tap/1password-cli
 brew install --cask warp
 
+# Apps
+brew install --cask 1password
+brew install --cask arc
+brew install --cask bettertouchtool
+brew install --cask calibre
+brew install --cask cursor
+brew install --cask docker
+brew install --cask figma
+brew install --cask ghostty
+brew install --cask google-chrome
+brew install --cask opal-composer
+brew install --cask raycast
+brew install --cask slack
+brew install --cask spotify
+brew install --cask visual-studio-code
+brew install --cask vlc
+brew install --cask whatsapp
+brew install --cask zoom
+
+# NOTE: Adobe Creative Cloud, Photoshop, Lightroom, and InDesign must be installed manually.
+# Download the Creative Cloud installer from https://creativecloud.adobe.com/apps/download/creative-cloud
+
 # ai tooling
 brew install claude-code
+
+# Mac App Store CLI (used by init/mas.sh)
+brew install mas
 
 # Remove outdated versions from the cellar.
 brew cleanup

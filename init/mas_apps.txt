@@ -1,0 +1,11 @@
+# Mac App Store apps — one name per line, exactly as it appears in the App Store.
+# Lines starting with # are ignored. Blank lines are ignored.
+# The install script resolves names to IDs automatically via `mas search`.
+
+# Productivity
+Fantastical - Calendar & Tasks
+Spark – Email App by Readdle
+
+# Utilities
+Battery Indicator
+1Blocker- Ad Blocker & Privacy
