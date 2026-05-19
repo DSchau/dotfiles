@@ -92,7 +92,13 @@ LOCAL_SSH="dschau@$HTPC_IP"
 REMOTE_SSH='dschau@ssh.dschau.dev'
 
 # home theater pc
-alias htpc="(ping -c 1 -W 1 $HTPC_IP &>/dev/null && echo "local" || echo "remote") | grep -q "local" && ssh $LOCAL_SSH -t $TMUX_COMMAND || ssh $REMOTE_SSH -t $TMUX_COMMAND"
+function htpc() {
+  if ping -c 1 -W 1 $HTPC_IP &>/dev/null; then
+    ssh $LOCAL_SSH -t $TMUX_COMMAND
+  else
+    ssh $REMOTE_SSH -t $TMUX_COMMAND
+  fi
+}
 
 # media aliases, for local to HTPC
 alias media="sh $HOME/dotfiles/scripts/media.sh"
