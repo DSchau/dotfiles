@@ -9,7 +9,41 @@
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "workbench.colorTheme": "Dracula",
+    "workbench.colorTheme": "Dracula Pro",
     "editor.inlineSuggest.enabled": true,
-    "security.workspace.trust.untrustedFiles": "open"
+    "security.workspace.trust.untrustedFiles": "open",
+    "explorer.confirmDelete": false,
+    "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "workbench.activityBar.location": "hidden",
+    "workbench.statusBar.visible": false,
+    "window.titleBarStyle": "native",
+    "editor.hideCursorInOverviewRuler": true,
+    "apc.electron": {
+        "titleBarStyle": "hiddenInset",
+        "trafficLightPosition": {
+          "x": 11,
+          "y": 10
+        }
+      },
+      "apc.header": {
+        "height": 36
+      },
+      // Remove unnecessary controls from primary bar and tabs list
+      "apc.stylesheet": {
+        ".title-label > h2": "display: none", // Remove primary side bar title
+        ".title-actions": "display: none", // Remove primary side bar action icons
+        ".editor-actions": "display: none", // Remove editor action icons
+        ".nosidebar .inline-tabs-placeholder": "width: 75px" // Align tabs to not overlap window controls when primary bar is hidden
+    },
+    "update.mode": "manual",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "cSpell.userWords": [
+      "customizability"
+    ],
+    "security.promptForLocalFileProtocolHandling": false,
+    "workbench.navigationControl.enabled": false,
+    "workbench.browser.showInTitleBar": false,
+    "window.customTitleBarVisibility": "never",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "chat.disableAIFeatures": true
 }

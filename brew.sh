@@ -110,6 +110,7 @@ brew install bat # a way better "cat"
 brew install gh # github cli
 brew install flyctl
 brew install has
+brew install rg # ripgrep
 
 # zsh
 brew install zsh-autosuggestions

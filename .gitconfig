@@ -118,6 +118,10 @@
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
 
+[pull]
+	# Rebase local changes on top of the fetched branch instead of merging.
+	rebase = true
+
 [push]
 	# https://git-scm.com/docs/git-config#git-config-pushdefault
 	default = current
