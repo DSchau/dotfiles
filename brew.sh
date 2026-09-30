@@ -121,6 +121,9 @@ brew install --cask jordanbaird-ice
 brew install --cask 1password/tap/1password-cli
 brew install --cask warp
 
+# Fonts
+brew install --cask font-fira-code # used by VS Code (init/VSCode/settings.json)
+
 # Apps
 brew install --cask 1password
 brew install --cask arc

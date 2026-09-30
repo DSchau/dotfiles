@@ -1,0 +1,11 @@
+# VS Code extensions, synced by bootstrap.sh (extensions not listed here are uninstalled)
+astro-build.astro-vscode
+dracula-theme-pro.theme-dracula-pro # paid, not on the Marketplace: install the .vsix manually
+drcika.apc-extension
+esbenp.prettier-vscode
+github.vscode-github-actions
+ms-azuretools.vscode-containers
+ms-azuretools.vscode-docker
+ms-vscode.sublime-keybindings
+streetsidesoftware.code-spell-checker
+yzhang.markdown-all-in-one

@@ -2,6 +2,7 @@
 
 # https://stackoverflow.com/a/246128
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+REPO_DIR=$( dirname -- "$SCRIPT_DIR" )
 
 # create symlink
 ## create a symlink since it's easier / more discoverable to edit from home dir
@@ -19,25 +20,8 @@ mkdir -p ${HOME}/.config/ghostty
 ###############################################################################
 # Scripts                                                                     #
 ###############################################################################
-cp -r ${SCRIPT_DIR}/scripts/. ${CODE}/Scripts
-cp ${SCRIPT_DIR}/ghostty_config ${HOME}/.config/ghostty/config
-
-###############################################################################
-# VSCode                                                                      #
-###############################################################################
-
-# move VSCode settings
-mkdir -p ${HOME}/Library/Application\ Support/Code/User/
-cp -r ${SCRIPT_DIR}/VSCode/. ${HOME}/Library/Application\ Support/Code/User/
-
-# make sure to install extensions too
-## important ones
-# Dracula
-# Markdown All in One
-# Prettier
-# Sublime Text Keymaps
-## Fonts
-# Source Code Pro
+cp -r ${REPO_DIR}/scripts/. ${CODE}/Scripts
+cp ${REPO_DIR}/ghostty_config ${HOME}/.config/ghostty/config
 
 ###############################################################################
 # Git Setup                                                                   #
@@ -102,11 +86,5 @@ fi
 if [[ $(command -v bun) == "" ]]; then
 curl -fsSL https://bun.sh/install | bash
 fi
-
-###############################################################################
-# Applications                                                                #
-# https://github.com/mas-cli/mas >> could be useful?
-###############################################################################
-source ${SCRIPT_DIR}/check-apps.sh
 
 echo "✅ And we're done. Thanks!"

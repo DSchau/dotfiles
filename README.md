@@ -9,14 +9,14 @@ _Note: this is a fork of [mathiasbyrnes/dotfiles](https://github.com/mathiasbyne
 **Warning:** If you want to give these dotfiles a try, you should first fork this repository, review the code, and remove things you don’t want or need. Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
 1. Clone: `git clone https://github.com/DSchau/dotfiles.git`
-1. `./init/init.sh`: creates `~/Projects/{Personal,Work,Scripts}`, copies VSCode and Ghostty config, creates an SSH key and `~/.ssh/config`, and installs oh-my-zsh, nvm and bun
-1. `./bootstrap.sh`: copies the dotfiles (`.zshrc`, `.bash_profile`, `.aliases`, …) into `~`, copies Claude Code commands to `~/.claude/commands`, and sets up [pi](#pi)
+1. `./init/init.sh`: creates `~/Projects/{Personal,Work,Scripts}`, copies scripts and Ghostty config, creates an SSH key and `~/.ssh/config`, and installs oh-my-zsh, nvm and bun
+1. `./bootstrap.sh`: copies the dotfiles (`.zshrc`, `.bash_profile`, `.aliases`, …) into `~`, copies Claude Code commands to `~/.claude/commands`, sets up [pi](#pi) and syncs [VS Code](#vs-code)
 1. `./brew.sh`: installs Homebrew, CLI tools and apps (casks)
 1. `./init/mas.sh`: installs the Mac App Store apps listed in `init/mas_apps.txt` (sign in to the App Store first)
-1. `./.macos`: sets macOS defaults and can optionally download extra apps (`init/install-applications.sh`)
+1. `./.macos`: sets macOS defaults
 1. Optional: `./git.sh` clones the repos in `git_repos.txt` into `~/Projects/{Personal,Work/<Org>}`
 
-`./init/doctor.sh` checks for installed apps and global dependencies.
+`./init/doctor.sh` lists missing brew casks / App Store apps and checks global dependencies.
 
 To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstrap.sh` to skip the prompt).
 
@@ -25,6 +25,14 @@ To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstr
 `bootstrap.sh` installs [pi](https://pi.dev) if it's missing (to `~/.pi/agent`, added to `$PATH` in `.bash_profile`). It then merges `pi/settings.json` into `~/.pi/agent/settings.json` and installs the packages listed there (e.g. [`pi-open-tui`](https://pi.dev/packages/pi-open-tui)). The repo's `packages` list replaces your local one.
 
 The default provider is OpenRouter. The API key is **not** committed. Create one at [openrouter.ai/keys](https://openrouter.ai/keys), then run `/login` in pi. pi saves it to `~/.pi/agent/auth.json`, outside the repo. pi also reads an `OPENROUTER_API_KEY` environment variable if one is set.
+
+### VS Code
+
+`init/VSCode` is the source of truth. `bootstrap.sh` overwrites `settings.json` and `keybindings.json`, then installs the extensions in `extensions.txt` and **uninstalls any that aren't listed**.
+
+- Turn off VS Code Settings Sync, or it will overwrite these files
+- Dracula Pro is paid and not on the Marketplace: install its `.vsix` manually
+- The editor font (Fira Code) is installed by `brew.sh`
 
 ### Local overrides
 

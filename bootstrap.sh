@@ -44,6 +44,22 @@ function doIt() {
 	# Install packages declared in settings (e.g. pi-open-tui)
 	command -v pi >/dev/null && pi update --extensions;
 
+	# Sync VS Code settings, keybindings and extensions (dotfiles are the source of truth)
+	local vscode_user="$HOME/Library/Application Support/Code/User";
+	mkdir -p "$vscode_user";
+	cp init/VSCode/settings.json init/VSCode/keybindings.json "$vscode_user/";
+	if command -v code >/dev/null; then
+		local wanted installed ext;
+		wanted=$(sed -e 's/#.*//' -e 's/[[:space:]]//g' -e '/^$/d' init/VSCode/extensions.txt | tr '[:upper:]' '[:lower:]');
+		installed=$(code --list-extensions | tr '[:upper:]' '[:lower:]');
+		for ext in $wanted; do
+			grep -qx "$ext" <<< "$installed" || code --install-extension "$ext" || echo "⚠️  couldn't install $ext; install it manually";
+		done;
+		for ext in $installed; do
+			grep -qx "$ext" <<< "$wanted" || code --uninstall-extension "$ext";
+		done;
+	fi;
+
 	source ~/.bash_profile;
 }
 
