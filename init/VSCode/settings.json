@@ -9,7 +9,7 @@
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "workbench.colorTheme": "Dracula Pro",
+    "workbench.colorTheme": "Dracula Pro (Van Helsing)",
     "editor.inlineSuggest.enabled": true,
     "security.workspace.trust.untrustedFiles": "open",
     "explorer.confirmDelete": false,
