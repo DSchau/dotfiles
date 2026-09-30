@@ -1,0 +1,33 @@
+// Zed settings, synced to ~/.config/zed/settings.json by bootstrap.sh
+// (dotfiles are the source of truth). Docs: https://zed.dev/docs/configuring-zed
+{
+  "base_keymap": "VSCode",
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "project_panel": {
+    "dock": "left"
+  },
+  "status_bar": {
+    "experimental.show": false
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "multi_cursor_modifier": "cmd_or_ctrl",
+  "show_edit_predictions": true,
+  "tab_size": 2,
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "buffer_font_family": "Fira Code",
+  "buffer_font_fallbacks": ["Menlo", "Monaco", "Courier New", "monospace"],
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  },
+  // Extensions Zed installs automatically (the Zed counterpart of VSCode/extensions.txt)
+  "auto_install_extensions": {
+    "html": true
+  }
+}

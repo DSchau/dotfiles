@@ -141,6 +141,7 @@ brew install --cask spotify
 brew install --cask visual-studio-code
 brew install --cask vlc
 brew install --cask whatsapp
+brew install --cask zed
 brew install --cask zoom
 
 # NOTE: Adobe Creative Cloud, Photoshop, Lightroom, and InDesign must be installed manually.

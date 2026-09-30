@@ -60,6 +60,16 @@ function doIt() {
 		done;
 	fi;
 
+	# Sync Zed settings (dotfiles are the source of truth; extensions come from auto_install_extensions)
+	mkdir -p ~/.config/zed;
+	cp init/Zed/settings.json ~/.config/zed/settings.json;
+
+	# Link the Zed CLI so `zed .` works (same as Zed > Install CLI, without sudo)
+	if [[ -x /Applications/Zed.app/Contents/MacOS/cli ]]; then
+		mkdir -p ~/.local/bin;
+		ln -sf /Applications/Zed.app/Contents/MacOS/cli ~/.local/bin/zed;
+	fi;
+
 	source ~/.bash_profile;
 }
 

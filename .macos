@@ -283,7 +283,7 @@ dock_items=(
 	"/Applications/Spark Desktop.app"
 	"/Applications/Slack.app"
 	"/Applications/Ghostty.app"
-	"/Applications/Visual Studio Code.app"
+	"/Applications/Zed.app"
 	"/System/Applications/Messages.app"
 )
 
