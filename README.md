@@ -24,21 +24,12 @@ To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstr
 
 `bootstrap.sh` installs [pi](https://pi.dev) if it's missing (to `~/.pi/agent`, added to `$PATH` in `.bash_profile`). It then merges `pi/settings.json` into `~/.pi/agent/settings.json` and installs the packages listed there (e.g. [`pi-open-tui`](https://pi.dev/packages/pi-open-tui)). The repo's `packages` list replaces your local one.
 
-The default provider is OpenRouter. The API key is **not** committed. Set it in `~/.secrets` (git-ignored and loaded by `.bash_profile`):
-
-```bash
-export OPENROUTER_API_KEY="sk-or-..."
-# or read it from 1Password:
-# export OPENROUTER_API_KEY="$(op read 'op://Private/OpenRouter/credential')"
-```
-
-Create a key at [openrouter.ai/keys](https://openrouter.ai/keys), or run `/login` in pi (saves it to `~/.pi/agent/auth.json`; never commit that file).
+The default provider is OpenRouter. The API key is **not** committed. Create one at [openrouter.ai/keys](https://openrouter.ai/keys), then run `/login` in pi. pi saves it to `~/.pi/agent/auth.json`, outside the repo. pi also reads an `OPENROUTER_API_KEY` environment variable if one is set.
 
 ### Local overrides
 
 - `~/.path`: sourced first; use it to extend `$PATH`, e.g. `export PATH="/usr/local/bin:$PATH"`
 - `~/.extra`: extra settings (git name/email); tracked and copied by `bootstrap.sh`
-- `~/.secrets`: API keys; never committed or copied
 
 ## Feedback
 

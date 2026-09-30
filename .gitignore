@@ -18,6 +18,3 @@ Thumbs.db
 !.env.sample
 !.env.development
 
-
-# secrets (API keys)
-.secrets
