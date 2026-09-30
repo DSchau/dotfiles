@@ -20,11 +20,23 @@ function doIt() {
 		--exclude "workflows" \
 		--exclude "dotfiles" \
 		--exclude "claude-skills" \
+		--exclude "pi" \
 		-avh --no-perms . ~;
 
 	# Sync Claude Code skills separately (preserves runtime data)
 	mkdir -p ~/.claude/commands;
 	rsync -avh --no-perms claude-skills/commands/ ~/.claude/commands/;
+
+	# Merge pi agent settings (preserves runtime keys pi writes, e.g. lastChangelogVersion)
+	mkdir -p ~/.pi/agent;
+	if [[ -f ~/.pi/agent/settings.json ]] && command -v jq >/dev/null; then
+		jq -s '.[0] * .[1]' ~/.pi/agent/settings.json pi/settings.json > ~/.pi/agent/settings.json.tmp \
+			&& mv ~/.pi/agent/settings.json.tmp ~/.pi/agent/settings.json;
+	else
+		cp pi/settings.json ~/.pi/agent/settings.json;
+	fi;
+	# Install packages declared in settings (e.g. pi-open-tui)
+	command -v pi >/dev/null && pi update --extensions;
 
 	source ~/.bash_profile;
 }

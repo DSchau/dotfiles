@@ -1,0 +1,12 @@
+{
+  "defaultProvider": "openrouter",
+  "defaultModel": "anthropic/claude-opus-5.5",
+  "defaultThinkingLevel": "medium",
+  "enabledModels": [
+    "openrouter/anthropic/*",
+    "openrouter/openai/*"
+  ],
+  "packages": [
+    "npm:pi-open-tui"
+  ]
+}
