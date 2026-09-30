@@ -27,6 +27,12 @@ function doIt() {
 	mkdir -p ~/.claude/commands;
 	rsync -avh --no-perms claude-skills/commands/ ~/.claude/commands/;
 
+	# Install pi (https://pi.dev) if missing
+	export PATH="$HOME/.pi/agent/bin:$PATH";
+	if ! command -v pi >/dev/null; then
+		curl -fsSL https://pi.dev/install.sh | sh;
+	fi;
+
 	# Merge pi agent settings (preserves runtime keys pi writes, e.g. lastChangelogVersion)
 	mkdir -p ~/.pi/agent;
 	if [[ -f ~/.pi/agent/settings.json ]] && command -v jq >/dev/null; then

@@ -8,37 +8,37 @@ _Note: this is a fork of [mathiasbyrnes/dotfiles](https://github.com/mathiasbyne
 
 **Warning:** If you want to give these dotfiles a try, you should first fork this repository, review the code, and remove things you don’t want or need. Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
-1. Clone this repo: `git clone https://github.com/DSchau/dotfiles.git`
-1. Run the init script: `./init/init.sh`
-    - This will install some things like ZSH, homebrew, configure folders, etc.
-1. Run the bootstrap script: `./bootstrap.sh`
-    - This will copy over config files like .bashrc, .bash_profile, etc.
-1. Run the brew setup script: `./brew.sh`
-1. Install macOS apps `./init/mas.sh`
-1. Run the macOS init script: `./.macos`
+1. Clone: `git clone https://github.com/DSchau/dotfiles.git`
+1. `./init/init.sh`: creates `~/Projects/{Personal,Work,Scripts}`, copies VSCode and Ghostty config, creates an SSH key and `~/.ssh/config`, and installs oh-my-zsh, nvm and bun
+1. `./bootstrap.sh`: copies the dotfiles (`.zshrc`, `.bash_profile`, `.aliases`, …) into `~`, copies Claude Code commands to `~/.claude/commands`, and sets up [pi](#pi)
+1. `./brew.sh`: installs Homebrew, CLI tools and apps (casks)
+1. `./init/mas.sh`: installs the Mac App Store apps listed in `init/mas_apps.txt` (sign in to the App Store first)
+1. `./.macos`: sets macOS defaults and can optionally download extra apps (`init/install-applications.sh`)
+1. Optional: `./git.sh` clones the repos in `git_repos.txt` into `~/Projects/{Personal,Work/<Org>}`
 
-1. Optionally set-up git and git repositories for local / project basis (`./git.sh`)
+`./init/doctor.sh` checks for installed apps and global dependencies.
 
-To update, `cd` into this local `dotfiles` repository and then:
+To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstrap.sh` to skip the prompt).
 
-```bash
-source bootstrap.sh
-```
+### pi
 
-Alternatively, to update while avoiding the confirmation prompt:
+`bootstrap.sh` installs [pi](https://pi.dev) if it's missing (to `~/.pi/agent`, added to `$PATH` in `.bash_profile`). It then merges `pi/settings.json` into `~/.pi/agent/settings.json` and installs the packages listed there (e.g. [`pi-open-tui`](https://pi.dev/packages/pi-open-tui)). The repo's `packages` list replaces your local one.
 
-```bash
-set -- -f; source bootstrap.sh
-```
-### Specify the `$PATH`
-
-If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/mathiasbynens/dotfiles/blob/aff769fd75225d8f2e481185a71d5e05b76002dc/.aliases#L21-L26)) takes place.
-
-Here’s an example `~/.path` file that adds `/usr/local/bin` to the `$PATH`:
+The default provider is OpenRouter. The API key is **not** committed. Set it in `~/.secrets` (git-ignored and loaded by `.bash_profile`):
 
 ```bash
-export PATH="/usr/local/bin:$PATH"
+export OPENROUTER_API_KEY="sk-or-..."
+# or read it from 1Password:
+# export OPENROUTER_API_KEY="$(op read 'op://Private/OpenRouter/credential')"
 ```
+
+Create a key at [openrouter.ai/keys](https://openrouter.ai/keys), or run `/login` in pi (saves it to `~/.pi/agent/auth.json`; never commit that file).
+
+### Local overrides
+
+- `~/.path`: sourced first; use it to extend `$PATH`, e.g. `export PATH="/usr/local/bin:$PATH"`
+- `~/.extra`: extra settings (git name/email); tracked and copied by `bootstrap.sh`
+- `~/.secrets`: API keys; never committed or copied
 
 ## Feedback
 

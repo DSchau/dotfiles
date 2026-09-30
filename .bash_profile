@@ -1,7 +1,8 @@
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
+# * ~/.secrets (never committed) holds API keys, e.g. OPENROUTER_API_KEY.
+for file in ~/.{path,bash_prompt,exports,aliases,functions,extra,secrets}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -14,6 +15,9 @@ export NVM_DIR="$HOME/.nvm"
 # feature: bun
 export BUN_INSTALL="$HOME/.bun" 
 export PATH="$BUN_INSTALL/bin:$PATH" 
+
+# feature: pi (https://pi.dev)
+export PATH="$HOME/.pi/agent/bin:$PATH"
 
 # feature: brew
 export PATH="/usr/local/bin:$PATH"
