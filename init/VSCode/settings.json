@@ -14,7 +14,7 @@
     "security.workspace.trust.untrustedFiles": "open",
     "explorer.confirmDelete": false,
     "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
-    "workbench.activityBar.location": "hidden",
+    "workbench.activityBar.location": "top",
     "workbench.statusBar.visible": false,
     "window.titleBarStyle": "custom",
     "window.commandCenter": false,
