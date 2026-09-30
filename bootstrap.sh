@@ -60,9 +60,9 @@ function doIt() {
 		done;
 	fi;
 
-	# Sync Zed settings (dotfiles are the source of truth; extensions come from auto_install_extensions)
+	# Sync Zed settings and keymap (dotfiles are the source of truth; extensions come from auto_install_extensions)
 	mkdir -p ~/.config/zed;
-	cp init/Zed/settings.json ~/.config/zed/settings.json;
+	cp init/Zed/settings.json init/Zed/keymap.json ~/.config/zed/;
 
 	# Link the Zed CLI so `zed .` works (same as Zed > Install CLI, without sudo)
 	if [[ -x /Applications/Zed.app/Contents/MacOS/cli ]]; then

@@ -1,0 +1,10 @@
+// Zed keymap, synced to ~/.config/zed/keymap.json by bootstrap.sh
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      // Sublime Text's "Split into Lines"
+      "cmd-shift-l": "editor::SplitSelectionIntoLines"
+    }
+  }
+]
