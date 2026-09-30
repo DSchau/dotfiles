@@ -27,5 +27,6 @@
     "workbench.navigationControl.enabled": false,
     "workbench.browser.showInTitleBar": false,
     "workbench.secondarySideBar.defaultVisibility": "hidden",
-    "chat.disableAIFeatures": true
+    "chat.disableAIFeatures": true,
+    "extensions.ignoreRecommendations": true
 }
