@@ -23,8 +23,8 @@
   "buffer_font_fallbacks": ["Menlo", "Monaco", "Courier New", "monospace"],
   "theme": {
     "mode": "system",
-    "light": "One Light",
-    "dark": "One Dark"
+    "light": "Dracula Pro (Alucard)",
+    "dark": "Dracula Pro"
   },
   // Extensions Zed installs automatically (the Zed counterpart of VSCode/extensions.txt)
   "auto_install_extensions": {

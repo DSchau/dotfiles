@@ -64,6 +64,15 @@ function doIt() {
 	mkdir -p ~/.config/zed;
 	cp init/Zed/settings.json init/Zed/keymap.json ~/.config/zed/;
 
+	# Dracula Pro is paid, so copy it from iCloud rather than committing it
+	dracula_zed=~/Library/Mobile\ Documents/com~apple~CloudDocs/Dracula\ Pro\ v2.2.3/themes/zed/dracula-pro.json;
+	if [[ -f $dracula_zed ]]; then
+		mkdir -p ~/.config/zed/themes;
+		cp "$dracula_zed" ~/.config/zed/themes/;
+	else
+		echo "⚠️  Dracula Pro Zed theme not found in iCloud; Zed will fall back to its default theme";
+	fi;
+
 	# Link the Zed CLI so `zed .` works (same as Zed > Install CLI, without sudo)
 	if [[ -x /Applications/Zed.app/Contents/MacOS/cli ]]; then
 		mkdir -p ~/.local/bin;
