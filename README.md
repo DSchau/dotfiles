@@ -10,7 +10,7 @@ _Note: this is a fork of [mathiasbyrnes/dotfiles](https://github.com/mathiasbyne
 
 1. Clone: `git clone https://github.com/DSchau/dotfiles.git`
 1. `./init/init.sh`: creates `~/Projects/{Personal,Work,Scripts}`, copies scripts and Ghostty config, creates an SSH key and `~/.ssh/config`, and installs oh-my-zsh, nvm and bun
-1. `./bootstrap.sh`: copies the dotfiles (`.zshrc`, `.bash_profile`, `.aliases`, …) into `~`, copies Claude Code commands to `~/.claude/commands`, sets up [pi](#pi) and syncs [VS Code](#vs-code)
+1. `./bootstrap.sh`: copies the dotfiles (`.zshrc`, `.bash_profile`, `.aliases`, …) into `~`, copies Claude Code commands to `~/.claude/commands`, sets up [pi](#pi) and syncs [Zed](#zed)
 1. `./brew.sh`: installs Homebrew, CLI tools and apps (casks)
 1. `./init/mas.sh`: installs the Mac App Store apps listed in `init/mas_apps.txt` (sign in to the App Store first)
 1. `./.macos`: sets macOS defaults
@@ -26,12 +26,11 @@ To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstr
 
 The default provider is OpenRouter. The API key is **not** committed. Create one at [openrouter.ai/keys](https://openrouter.ai/keys), then run `/login` in pi. pi saves it to `~/.pi/agent/auth.json`, outside the repo. pi also reads an `OPENROUTER_API_KEY` environment variable if one is set.
 
-### VS Code
+### Zed
 
-`init/VSCode` is the source of truth. `bootstrap.sh` overwrites `settings.json` and `keybindings.json`, then installs the extensions in `extensions.txt` and **uninstalls any that aren't listed**.
+`init/Zed` is the source of truth. `bootstrap.sh` overwrites `~/.config/zed/settings.json` and `keymap.json`. Extensions are installed by Zed itself from `auto_install_extensions`. It also links the `zed` CLI into `~/.local/bin`.
 
-- Turn off VS Code Settings Sync, or it will overwrite these files
-- Dracula Pro is paid and not on the Marketplace: install its `.vsix` manually
+- Dracula Pro is paid and not committed: `bootstrap.sh` copies the Zed theme from iCloud if it's there
 - The editor font (Fira Code) is installed by `brew.sh`
 
 ### Local overrides

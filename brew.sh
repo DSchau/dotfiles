@@ -119,10 +119,9 @@ brew install zsh-syntax-highlighting
 # menubar utility to hide icons
 brew install --cask jordanbaird-ice
 brew install --cask 1password/tap/1password-cli
-brew install --cask warp
 
 # Fonts
-brew install --cask font-fira-code # used by VS Code (init/VSCode/settings.json)
+brew install --cask font-fira-code # used by Zed (init/Zed/settings.json)
 
 # Apps
 brew install --cask 1password
@@ -138,7 +137,6 @@ brew install --cask opal-composer
 brew install --cask raycast
 brew install --cask slack
 brew install --cask spotify
-brew install --cask visual-studio-code
 brew install --cask vlc
 brew install --cask whatsapp
 brew install --cask zed

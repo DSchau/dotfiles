@@ -27,7 +27,7 @@
     "light": "Dracula Pro (Alucard)",
     "dark": "Dracula Pro"
   },
-  // Extensions Zed installs automatically (the Zed counterpart of VSCode/extensions.txt)
+  // Extensions Zed installs automatically
   "auto_install_extensions": {
     "astro": true,
     "html": true,
