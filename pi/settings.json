@@ -1,10 +1,13 @@
 {
   "defaultProvider": "openrouter",
-  "defaultModel": "anthropic/claude-opus-5.5",
-  "defaultThinkingLevel": "medium",
+  "defaultModel": "meta/muse-spark-1.3",
+  "defaultThinkingLevel": "high",
   "enabledModels": [
     "openrouter/anthropic/*",
-    "openrouter/openai/*"
+    "openrouter/meta/muse-spark-*",
+    "openrouter/moonshotai/*",
+    "openrouter/openai/*",
+    "openrouter/z-ai/*"
   ],
   "packages": [
     "npm:pi-open-tui"
