@@ -85,6 +85,7 @@ alias reload="exec ${SHELL} -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
+alias hunk="hunk diff ."
 
 TMUX_COMMAND='tmux new-session -A -s HTPC'
 HTPC_IP='192.168.0.250'

@@ -147,6 +147,7 @@ brew install --cask zoom
 
 # ai tooling
 brew install claude-code
+brew install hunk # review-first terminal diff viewer for agent changes
 
 # Mac App Store CLI (used by init/mas.sh)
 brew install mas

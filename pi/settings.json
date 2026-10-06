@@ -1,6 +1,6 @@
 {
   "defaultProvider": "openrouter",
-  "defaultModel": "meta/muse-spark-1.3",
+  "defaultModel": "anthropic/claude-opus-5.5",
   "defaultThinkingLevel": "high",
   "enabledModels": [
     "openrouter/anthropic/*",
