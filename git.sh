@@ -8,8 +8,9 @@ ORG_TO_FOLDER["gatsby-inc"]="Gatsby"
 ORG_TO_FOLDER["netlify"]="Netlify"
 ORG_TO_FOLDER["postmanlabs"]="Postman"
 ORG_TO_FOLDER["adaptcom"]="Adapt"
+ORG_TO_FOLDER["mastra-ai"]="Mastra"
 
-CURRENT_WORK="Adapt"
+CURRENT_WORK="Mastra"
 
 mkdir -p "$BASE_DIR/Personal"
 mkdir -p "$BASE_DIR/Work"

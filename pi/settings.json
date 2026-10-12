@@ -12,5 +12,8 @@
   "packages": [
     "npm:pi-open-tui"
   ],
-  "quietStartup": true
+  "quietStartup": true,
+  "defaultTools": [
+    "+codemode"
+  ]
 }
