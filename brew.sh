@@ -133,6 +133,7 @@ brew install --cask docker
 brew install --cask figma
 brew install --cask ghostty
 brew install --cask google-chrome
+brew install --cask linear
 brew install --cask opal-composer
 brew install --cask raycast
 brew install --cask slack

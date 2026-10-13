@@ -87,6 +87,8 @@ alias reload="exec ${SHELL} -l"
 alias path='echo -e ${PATH//:/\\n}'
 alias hunk="hunk diff ."
 
+alias mc="mastracode"
+
 TMUX_COMMAND='tmux new-session -A -s HTPC'
 HTPC_IP='192.168.0.250'
 LOCAL_SSH="dschau@$HTPC_IP"
