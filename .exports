@@ -46,5 +46,7 @@ export HAS_ALLOW_UNSAFE=y
 export PI_CACHE_RETENTION=long;
 # pi-memory: write exit summaries with a cheap model instead of the session model (Opus)
 export PI_MEMORY_EXIT_SUMMARY_MODEL='openrouter/anthropic/claude-haiku-4.5';
+# pi-memory: allow 30s for the exit summary (default 10s; on timeout nothing is saved)
+export PI_MEMORY_EXIT_SUMMARY_TIMEOUT_MS=30000;
 # pi-memory: also summarize on /new, /resume, /fork, /reload (not just on quit)
 export PI_MEMORY_SUMMARIZE_TRANSITIONS=1;
