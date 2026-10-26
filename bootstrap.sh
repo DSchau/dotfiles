@@ -43,6 +43,8 @@ function doIt() {
 	fi;
 	# Install packages declared in settings (e.g. pi-open-tui, pi-memory)
 	command -v pi >/dev/null && pi update --extensions;
+	# Re-apply local patches to those packages (pi update reinstalls them unpatched)
+	./pi/patch-packages.sh;
 
 	# Global pi instructions (memory heuristics) and prompt templates (e.g. /memory-promote)
 	cp pi/AGENTS.md ~/.pi/agent/AGENTS.md;

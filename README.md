@@ -32,6 +32,11 @@ To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstr
 - `pi/prompts/memory-promote.md` → `/memory-promote [days]`: moves durable facts from recent daily logs into `MEMORY.md` and prunes stale entries. Run it about once a week
 - `bootstrap.sh` installs [`qmd`](https://github.com/tobi/qmd) globally so `memory_search` works (keyword search immediately; semantic search after the first embed downloads its model)
 - `.exports` sets `PI_CACHE_RETENTION=long`, sends exit summaries to Haiku instead of Opus (with a 30s timeout instead of 10s), and also writes summaries on `/new`, `/resume`, `/fork` and `/reload`
+- `pi/patches/pi-memory@0.4.2.patch` is a local patch, applied by `pi/patch-packages.sh` (which `bootstrap.sh` runs). It does two things:
+  - Exit summaries become short index entries (Topic/Outcome/Files/Open) instead of long Decisions/Lessons write-ups
+  - The summary is written by a detached background process, so Ctrl+D and `/quit` exit immediately. Set `PI_MEMORY_EXIT_SUMMARY_BACKGROUND=0` to go back to waiting. Worker errors go to `$TMPDIR/pi-memory-exit-summary.log`
+
+  `pi update` reinstalls packages without the patch, so run `~/dotfiles/pi/patch-packages.sh` afterwards. pi-memory is pinned to 0.4.2 in `pi/settings.json` so the patch keeps applying. To upgrade, bump the pin, rebase the patch, and rename the patch file to match the new version
 - `showCacheMissNotices` in `pi/settings.json` shows prompt-cache misses, which are where tokens get wasted
 
 The default provider is OpenRouter. The API key is **not** committed. Create one at [openrouter.ai/keys](https://openrouter.ai/keys), then run `/login` in pi. pi saves it to `~/.pi/agent/auth.json`, outside the repo. pi also reads an `OPENROUTER_API_KEY` environment variable if one is set.

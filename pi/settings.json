@@ -11,7 +11,7 @@
   ],
   "packages": [
     "npm:pi-open-tui",
-    "npm:pi-memory"
+    "npm:pi-memory@0.4.2"
   ],
   "quietStartup": true,
   "showCacheMissNotices": true,
