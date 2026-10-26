@@ -24,6 +24,16 @@ To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstr
 
 `bootstrap.sh` installs [pi](https://pi.dev) if it's missing (to `~/.pi/agent`, added to `$PATH` in `.bash_profile`). It then merges `pi/settings.json` into `~/.pi/agent/settings.json` and installs the packages listed there (e.g. [`pi-open-tui`](https://pi.dev/packages/pi-open-tui)). The repo's `packages` list replaces your local one.
 
+#### Memory
+
+[`pi-memory`](https://pi.dev/packages?name=pi-memory) gives pi memory that carries across sessions. It's stored as markdown in `~/.pi/agent/memory/`, which is **not** committed because it's personal.
+
+- `pi/AGENTS.md` → `~/.pi/agent/AGENTS.md`: tells the agent to save preferences, decisions, lessons and deferred work without being asked to "remember"
+- `pi/prompts/memory-promote.md` → `/memory-promote [days]`: moves durable facts from recent daily logs into `MEMORY.md` and prunes stale entries. Run it about once a week
+- `bootstrap.sh` installs [`qmd`](https://github.com/tobi/qmd) globally so `memory_search` works (keyword search immediately; semantic search after the first embed downloads its model)
+- `.exports` sets `PI_CACHE_RETENTION=long`, sends exit summaries to Haiku instead of Opus, and also writes summaries on `/new`, `/resume`, `/fork` and `/reload`
+- `showCacheMissNotices` in `pi/settings.json` shows prompt-cache misses, which are where tokens get wasted
+
 The default provider is OpenRouter. The API key is **not** committed. Create one at [openrouter.ai/keys](https://openrouter.ai/keys), then run `/login` in pi. pi saves it to `~/.pi/agent/auth.json`, outside the repo. pi also reads an `OPENROUTER_API_KEY` environment variable if one is set.
 
 ### Zed

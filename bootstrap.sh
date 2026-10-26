@@ -41,8 +41,19 @@ function doIt() {
 	else
 		cp pi/settings.json ~/.pi/agent/settings.json;
 	fi;
-	# Install packages declared in settings (e.g. pi-open-tui)
+	# Install packages declared in settings (e.g. pi-open-tui, pi-memory)
 	command -v pi >/dev/null && pi update --extensions;
+
+	# Global pi instructions (memory heuristics) and prompt templates (e.g. /memory-promote)
+	cp pi/AGENTS.md ~/.pi/agent/AGENTS.md;
+	mkdir -p ~/.pi/agent/prompts;
+	rsync -avh --no-perms pi/prompts/ ~/.pi/agent/prompts/;
+
+	# qmd powers pi-memory's memory_search; node-llama-cpp's install script is needed for semantic search.
+	# pi-memory creates the qmd collection itself on the next session start.
+	if ! command -v qmd >/dev/null && command -v npm >/dev/null; then
+		npm install -g @tobilu/qmd --allow-scripts=node-llama-cpp;
+	fi;
 
 	# Sync Zed settings and keymap (dotfiles are the source of truth; extensions come from auto_install_extensions)
 	mkdir -p ~/.config/zed;

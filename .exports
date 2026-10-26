@@ -41,3 +41,10 @@ export PERL_LWP_SSL_VERIFY_HOSTNAME=0;
 
 # feature: has, works for more global deps
 export HAS_ALLOW_UNSAFE=y
+
+# pi: longer provider prompt caching (fewer cache misses = fewer tokens billed)
+export PI_CACHE_RETENTION=long;
+# pi-memory: write exit summaries with a cheap model instead of the session model (Opus)
+export PI_MEMORY_EXIT_SUMMARY_MODEL='openrouter/anthropic/claude-haiku-4.5';
+# pi-memory: also summarize on /new, /resume, /fork, /reload (not just on quit)
+export PI_MEMORY_SUMMARIZE_TRANSITIONS=1;

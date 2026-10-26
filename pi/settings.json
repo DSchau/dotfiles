@@ -10,9 +10,11 @@
     "openrouter/z-ai/*"
   ],
   "packages": [
-    "npm:pi-open-tui"
+    "npm:pi-open-tui",
+    "npm:pi-memory"
   ],
   "quietStartup": true,
+  "showCacheMissNotices": true,
   "defaultTools": [
     "+codemode"
   ]
