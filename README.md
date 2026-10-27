@@ -48,6 +48,15 @@ The default provider is OpenRouter. The API key is **not** committed. Create one
 - Dracula Pro is paid and not committed: `bootstrap.sh` copies the Zed theme from iCloud if it's there
 - The editor font (Fira Code) is installed by `brew.sh`
 
+### Camera ingest (`scripts/`)
+
+Copies photos and videos from the camera's SD card (`/Volumes/Videos`) to the NAS through the HTPC, then starts the HTPC's `photo-backup` (R2 + Google Photos). The full flow is in [htpc-knowledge CAMERA.md](https://github.com/DSchau/htpc-knowledge/blob/main/CAMERA.md).
+
+- `media` (`scripts/media.sh`): runs `videos.sh` and `pictures.sh`, then starts `photo-backup` on the HTPC only if both succeeded. Logs to `~/logs/media.log`. It refuses to run off the home network (`ALLOW_REMOTE=1` overrides)
+- `media status`: the last `photo-backup` run. Files stay on the card; reformat it in the camera once all four jobs end with `exit 0` (or set `REMOVE_FROM_CARD=1` to delete them from the card as soon as they're on the NAS)
+- `pictures.sh`: copies the originals first, then converts only the files rsync sent: one `exiftool` call for the years, `sips` in parallel
+- `drop.sh`: `~/Movies/Drop/*.mov` → `~/Movies/Home/*.mp4`, remuxed when possible, otherwise re-encoded with VideoToolbox HEVC
+
 ### Local overrides
 
 - `~/.path`: sourced first; use it to extend `$PATH`, e.g. `export PATH="/usr/local/bin:$PATH"`

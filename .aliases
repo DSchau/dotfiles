@@ -103,8 +103,7 @@ function htpc() {
   fi
 }
 
-# media aliases, for local to HTPC
-alias media="sh $HOME/dotfiles/scripts/media.sh"
-alias pictures="sh $HOME/dotfiles/scripts/pictures.sh"
-alias video="sh $HOME/dotfiles/scripts/videos.sh"
-alias htpc_clone="sh $HOME/dotfiles/scripts/htpc.sh"
+# camera ingest to the HTPC/NAS (`media status` shows the last R2 / Google Photos backup)
+alias media="bash $HOME/dotfiles/scripts/media.sh"
+alias pictures="bash $HOME/dotfiles/scripts/pictures.sh"
+alias video="bash $HOME/dotfiles/scripts/videos.sh"
