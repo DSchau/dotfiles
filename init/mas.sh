@@ -65,7 +65,13 @@ mas_install_by_name() {
   fi
 
   echo "  installing: $name (id: $app_id)"
-  mas install "$app_id"
+  # `mas install` only works for apps this Apple ID has already "gotten";
+  # otherwise it fails with "No downloads initiated". Try `mas purchase`
+  # (free apps), then fall back to opening the App Store page.
+  mas install "$app_id" && return 0
+  mas purchase "$app_id" && return 0
+  echo "  WARN: couldn't install '$name' — opening it in the App Store; click Get to install."
+  open "macappstore://apps.apple.com/app/id${app_id}" || true
 }
 
 echo ""
