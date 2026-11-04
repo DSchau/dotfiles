@@ -153,7 +153,6 @@ brew install --cask font-fira-code # used by Zed (init/Zed/settings.json)
 
 # Apps
 brew install --cask 1password
-brew install --cask arc
 brew install --cask bettertouchtool
 brew install --cask calibre
 brew install --cask cursor
@@ -161,7 +160,6 @@ brew install --cask db-browser-for-sqlite
 brew install --cask docker
 brew install --cask dozer
 brew install --cask figma
-brew install --cask ghostty
 brew install --cask google-chrome
 brew install --cask linear
 brew install --cask opal-composer
