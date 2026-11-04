@@ -38,10 +38,6 @@ else
   echo "~/.ssh/config exists"
 fi
 
-# Create connection with remote PC
-## does not require password when ssh'ing to htpc
-ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev
-
 cat <<EOF >> $SSH_FILE
 # Cloudflare Tunnel
 Host ssh.dschau.dev
@@ -56,7 +52,12 @@ Host github.com
 EOF
 
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev
+
+# Create connection with remote PC
+## does not require password when ssh'ing to htpc
+## runs after ~/.ssh/config has the Cloudflare ProxyCommand; times out instead of hanging
+ssh-copy-id -o ConnectTimeout=15 -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev \
+  || echo "WARNING: ssh-copy-id to ssh.dschau.dev failed; re-run later: ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev"
 
 echo "Please make sure to add these credentials to Github"
 open https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
