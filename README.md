@@ -39,7 +39,9 @@ To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstr
   `pi update` reinstalls packages without the patch, so run `~/dotfiles/pi/patch-packages.sh` afterwards. pi-memory is pinned to 0.4.2 in `pi/settings.json` so the patch keeps applying. To upgrade, bump the pin, rebase the patch, and rename the patch file to match the new version
 - `showCacheMissNotices` in `pi/settings.json` shows prompt-cache misses, which are where tokens get wasted
 
-The default provider is OpenRouter. The API key is **not** committed. Create one at [openrouter.ai/keys](https://openrouter.ai/keys), then run `/login` in pi. pi saves it to `~/.pi/agent/auth.json`, outside the repo. pi also reads an `OPENROUTER_API_KEY` environment variable if one is set.
+The default provider is OpenRouter. The API key is **not** committed. Create one at [openrouter.ai/keys](https://openrouter.ai/keys); `bootstrap.sh` asks for it once and stores it in the macOS Keychain (service `openrouter`). It then points `~/.pi/agent/auth.json` at the Keychain (`"key": "!security find-generic-password -s openrouter -w"`), so pi reads the key at startup and never writes it to disk. An existing `openrouter` entry in `auth.json` (e.g. from `/login`) is left alone. pi also reads an `OPENROUTER_API_KEY` environment variable if one is set.
+
+`brew.sh` installs `fd` and `rg`, which pi's find and grep tools use. Without them pi downloads its own copies into `~/.pi/agent/bin` on first start.
 
 ### Zed
 
