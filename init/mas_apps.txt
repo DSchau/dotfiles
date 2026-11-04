@@ -3,9 +3,8 @@
 # The install script resolves names to IDs automatically via `mas search`.
 
 # Productivity
-Fantastical - Calendar & Tasks
-Spark – Email App by Readdle
+Fantastical - Calendar
 
 # Utilities
 Battery Indicator
-1Blocker- Ad Blocker & Privacy
+1Blocker: Ad Blocker

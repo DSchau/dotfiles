@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Camera ingest: SD card + ~/Movies/Home → NAS, then start photo-backup on the NUC (R2 + Google Photos).
+# Camera ingest: SD card + ~/Movies/Home → NAS, then start photo-backup on the Mac Studio (R2 + Google Photos).
 # How it fits together: https://github.com/DSchau/htpc-knowledge/blob/main/CAMERA.md
 #
 #   media.sh          copy everything to the NAS, then start photo-backup
@@ -11,7 +11,9 @@ source "$DIR/env.sh"
 LOG="$LOG_DIR/media.log"
 mkdir -p "$LOG_DIR"
 
-remote() { ssh $SSH_OPTS "$SSH_CONNECTION_STRING" "$@"; }
+remote() {
+  if ((${ON_HTPC:-0})); then bash -c "$*"; else ssh $SSH_OPTS "$SSH_CONNECTION_STRING" "$@"; fi
+}
 
 if [[ ${1:-} == status ]]; then
   remote 'grep "photo-backup:" ~/logs/rclone.log | tail -8; if pgrep -f "[/]usr/local/bin/photo-backup" >/dev/null; then echo "(still running)"; fi'
@@ -58,11 +60,12 @@ if ((failed)); then
 fi
 
 # photo-backup has the safety checks (flock, empty-source check, --max-delete, bandwidth limit) and the right R2
-# paths. Detached, so this returns right away; it logs to ~/logs/rclone.log on the NUC.
-if remote 'setsid /usr/local/bin/photo-backup </dev/null >/dev/null 2>&1 &'; then
-  echo -e "🍿 \033[1mphoto-backup\033[0m started on the NUC. Check it with: media.sh status"
+# paths. Detached, so this returns right away; it logs to ~/logs/rclone.log on the Studio. Homebrew's bash and PATH,
+# as in its launchd job: an SSH session has no flock, and macOS can block /bin/bash from the NAS.
+if remote 'PATH=/opt/homebrew/bin:$PATH nohup /opt/homebrew/bin/bash /usr/local/bin/photo-backup </dev/null >/dev/null 2>&1 &'; then
+  echo -e "🍿 \033[1mphoto-backup\033[0m started on the Studio. Check it with: media.sh status"
 else
-  echo -e "❌ Couldn't start photo-backup on the NUC. It still runs at 04:00." >&2
+  echo -e "❌ Couldn't start photo-backup on the Studio. It still runs at 04:00." >&2
   exit 1
 fi
 if [[ $REMOVE_FROM_CARD != 1 && -d $CARD_DIR/DCIM ]]; then

@@ -8,7 +8,7 @@ casks=$(awk '/^brew install --cask/ {print $4}' "${SCRIPT_DIR}/../brew.sh" | sed
 installed_casks=$(brew list --cask 2>/dev/null)
 brew info --cask --json=v2 $casks \
   | jq -r '.casks[] | [.token, (
-      [.artifacts[] | select(.app) | .app[] | strings] + # e.g. "Arc.app"
+      [.artifacts[] | select(.app) | .app[] | strings] + # e.g. "Zed.app"
       [.artifacts[] | select(.uninstall) | .uninstall[].delete? | select(.) | if type == "array" then .[] else . end
         | select(test("^/Applications/[^/]+\\.app$"))] # pkg casks, e.g. zoom
       | first // "" | sub("^/Applications/"; ""))] | @tsv' \

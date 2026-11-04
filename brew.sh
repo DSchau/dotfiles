@@ -7,7 +7,10 @@
 echo "Updating to the latest homebrew"
 
 if [[ $(command -v brew) == "" ]]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # NONINTERACTIVE skips the installer's "Press RETURN to continue" prompt (default yes).
+    # It uses `sudo -n`, so cache sudo credentials up front.
+    sudo -v
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     eval "$(/opt/homebrew/bin/brew shellenv)"
 else
     echo "brew is installed. Skipping!"
@@ -111,6 +114,31 @@ brew install gh # github cli
 brew install flyctl
 brew install has
 brew install rg # ripgrep
+brew install colima # container runtime for the docker CLI
+brew install docker-compose
+brew install ffmpeg
+brew install fswatch
+brew install rclone
+brew install tailscale
+brew install telnet
+brew install xcodegen
+brew install pipx
+brew install newman # postman CLI
+brew install mysql-client
+brew install postgresql@17
+brew install pgvector
+brew install redis
+brew install qemu
+brew install aircrack-ng
+brew install render
+brew install modal
+brew install anomalyco/tap/opencode
+brew install pulumi/tap/pulumi
+brew install kernel/tap/kernel
+brew install openclaw/tap/gitcrawl
+brew install --cask gcloud-cli
+brew install --cask fing-cli
+brew install --cask ngrok
 
 # zsh
 brew install zsh-autosuggestions
@@ -125,17 +153,18 @@ brew install --cask font-fira-code # used by Zed (init/Zed/settings.json)
 
 # Apps
 brew install --cask 1password
-brew install --cask arc
 brew install --cask bettertouchtool
 brew install --cask calibre
 brew install --cask cursor
+brew install --cask db-browser-for-sqlite
 brew install --cask docker
+brew install --cask dozer
 brew install --cask figma
-brew install --cask ghostty
 brew install --cask google-chrome
 brew install --cask linear
 brew install --cask opal-composer
 brew install --cask raycast
+brew install --cask readdle-spark # Spark Desktop.app (direct download, not the App Store build)
 brew install --cask slack
 brew install --cask spotify
 brew install --cask vlc
@@ -148,6 +177,8 @@ brew install --cask zoom
 
 # ai tooling
 brew install claude-code
+brew install --cask codex
+brew install gemini-cli
 brew install hunk # review-first terminal diff viewer for agent changes
 
 # Mac App Store CLI (used by init/mas.sh)

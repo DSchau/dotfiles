@@ -28,15 +28,26 @@ if [ ! -d "/Library/Developer/CommandLineTools" ]; then
 	xcode-select --install
 fi
 
-computer_name="dschau"
-suffix=""
-
-read -p "Work machine (y/n)?" choice
-case "$choice" in 
-  y|Y ) computer_name="dschau-work";;
-  n|N ) echo "Noted! Will set computer name to $computer_name";;
-  * ) echo "Try again. y or n";;
+# Machine type from the hardware model name, e.g. "Mac Studio" -> mac-studio,
+# "MacBook Pro" -> mbp, "MacBook Air" -> mba, "Mac mini" -> mac-mini
+model_name=$(system_profiler SPHardwareDataType 2>/dev/null | awk -F": " "/Model Name/ {print \$2; exit}")
+case "$model_name" in
+  "MacBook Pro") machine_type="mbp";;
+  "MacBook Air") machine_type="mba";;
+  "") machine_type="mac";;
+  *) machine_type=$(echo "$model_name" | tr "[:upper:]" "[:lower:]" | tr -s " " "-");;
 esac
+
+while true; do
+  read -p "Work machine (y/n)? " choice
+  case "$choice" in
+    y|Y ) usage="work"; break;;
+    n|N ) usage="personal"; break;;
+    * ) echo "Try again. y or n";;
+  esac
+done
+
+computer_name="$machine_type-$usage"
 
 echo "Setting computer name, host name, and local host name to $computer_name"
 
@@ -278,11 +289,11 @@ dock_item() {
 
 # note: no commas between items
 dock_items=(
-	"/Applications/Arc.app"
+	"/Applications/Google Chrome.app"
 	"/Applications/Spotify.app"
 	"/Applications/Spark Desktop.app"
 	"/Applications/Slack.app"
-	"/Applications/Ghostty.app"
+	"/Applications/Rex Beta.app"
 	"/Applications/Zed.app"
 	"/System/Applications/Messages.app"
 )
@@ -400,40 +411,6 @@ sudo mdutil -E / > /dev/null
 
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
-
-# Use a modified version of the IR Dark theme by default in Terminal.app
-osascript <<EOD
-tell application "Terminal"
-	local allOpenedWindows
-	local initialOpenedWindows
-	local windowID
-	set themeName to "IR_Black"
-	(* Store the IDs of all the open terminal windows. *)
-	set initialOpenedWindows to id of every window
-	(* Open the custom theme so that it gets added to the list
-	   of available terminal themes (note: this will open two
-	   additional terminal windows). *)
-	do shell script "open '$SCRIPT_DIR/init/" & themeName & ".terminal'"
-	(* Wait a little bit to ensure that the custom theme is added. *)
-	delay 1
-	(* Set the custom theme as the default terminal theme. *)
-	set default settings to settings set themeName
-	(* Get the IDs of all the currently opened terminal windows. *)
-	set allOpenedWindows to id of every window
-	repeat with windowID in allOpenedWindows
-		(* Close the additional windows that were opened in order
-		   to add the custom theme to the list of terminal themes. *)
-		if initialOpenedWindows does not contain windowID then
-			close (every window whose id is windowID)
-		(* Change the theme for the initial opened terminal windows
-		   to remove the need to close them in order for the custom
-		   theme to be applied. *)
-		else
-			set current settings of tabs of (every window whose id is windowID) to settings set themeName
-		end if
-	end repeat
-end tell
-EOD
 
 # Enable “focus follows mouse” for Terminal.app and all X11 apps
 # i.e. hover over a window and start typing in it without clicking first

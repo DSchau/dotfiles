@@ -38,20 +38,12 @@ else
   echo "~/.ssh/config exists"
 fi
 
-# ssh.dschau.dev is reached through a Cloudflare Tunnel, so cloudflared must
-# exist before any ssh to it (init.sh runs before brew.sh on a fresh machine)
-if ! command -v cloudflared >/dev/null 2>&1; then
-  if command -v brew >/dev/null 2>&1; then
-    brew install cloudflared
-  else
-    echo "cloudflared not found and Homebrew unavailable; run ./brew.sh first"
-  fi
+# ssh.dschau.dev is reached through a Cloudflare Tunnel. On a fresh machine
+# brew.sh (which installs cloudflared to /opt/homebrew/bin) hasn't run yet.
+if ! command -v cloudflared >/dev/null 2>&1 && command -v brew >/dev/null 2>&1; then
+  brew install cloudflared
 fi
-CLOUDFLARED=$(command -v cloudflared || echo cloudflared)
-
-# Create connection with remote PC
-## does not require password when ssh'ing to htpc
-ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev
+CLOUDFLARED=$(command -v cloudflared || echo /opt/homebrew/bin/cloudflared)
 
 cat <<EOF >> $SSH_FILE
 # Cloudflare Tunnel
@@ -67,7 +59,27 @@ Host github.com
 EOF
 
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev
+
+# cloudflared (the ProxyCommand above) writes its Access token/JWKS cache to ~/.cloudflared.
+# If that dir was ever created by `sudo cloudflared ...` it's root-owned and ssh fails with
+# "permission denied" / "Connection closed by UNKNOWN port 65535".
+CLOUDFLARED_DIR=${HOME}/.cloudflared
+mkdir -p "$CLOUDFLARED_DIR"
+if [ -n "$(find "$CLOUDFLARED_DIR" ! -user "$(id -u)" -print -quit)" ]; then
+  echo "Fixing ownership of $CLOUDFLARED_DIR (needs sudo)"
+  sudo chown -R "$(id -u)":"$(id -g)" "$CLOUDFLARED_DIR"
+fi
+chmod 700 "$CLOUDFLARED_DIR"
+
+# Create connection with remote PC
+## does not require password when ssh'ing to htpc
+## runs after ~/.ssh/config has the Cloudflare ProxyCommand; times out instead of hanging
+if [ -x "$CLOUDFLARED" ]; then
+  ssh-copy-id -o ConnectTimeout=15 -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev \
+    || echo "WARNING: ssh-copy-id to ssh.dschau.dev failed; re-run later: ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev"
+else
+  echo "Skipping ssh-copy-id: cloudflared not installed yet. Run ./brew.sh, then: ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev"
+fi
 
 echo "Please make sure to add these credentials to Github"
 open https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
