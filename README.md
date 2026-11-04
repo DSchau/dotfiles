@@ -10,7 +10,7 @@ _Note: this is a fork of [mathiasbyrnes/dotfiles](https://github.com/mathiasbyne
 
 1. Clone: `git clone https://github.com/DSchau/dotfiles.git`
 1. `./init/init.sh`: creates `~/Projects/{Personal,Work,Scripts}`, copies scripts and Ghostty config, creates an SSH key and `~/.ssh/config`, and installs oh-my-zsh, nvm and bun
-1. `./bootstrap.sh`: copies the dotfiles (`.zshrc`, `.bash_profile`, `.aliases`, …) into `~`, copies Claude Code commands to `~/.claude/commands`, sets up [pi](#pi) and syncs [Zed](#zed)
+1. `./bootstrap.sh`: copies the dotfiles (`.zshrc`, `.bash_profile`, `.aliases`, …) into `~`, copies Claude Code commands to `~/.claude/commands`, installs nvm and node (if missing), sets up [pi](#pi) and syncs [Zed](#zed)
 1. `./brew.sh`: installs Homebrew, CLI tools and apps (casks)
 1. `./init/mas.sh`: installs the Mac App Store apps listed in `init/mas_apps.txt` (sign in to the App Store first)
 1. `./.macos`: sets macOS defaults
