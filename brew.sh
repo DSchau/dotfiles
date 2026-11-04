@@ -7,7 +7,10 @@
 echo "Updating to the latest homebrew"
 
 if [[ $(command -v brew) == "" ]]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # NONINTERACTIVE skips the installer's "Press RETURN to continue" prompt (default yes).
+    # It uses `sudo -n`, so cache sudo credentials up front.
+    sudo -v
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     eval "$(/opt/homebrew/bin/brew shellenv)"
 else
     echo "brew is installed. Skipping!"
