@@ -114,6 +114,7 @@ brew install gh # github cli
 brew install flyctl
 brew install has
 brew install rg # ripgrep
+brew install fd # also used by pi's find tool (otherwise pi downloads its own copy on first start)
 brew install colima # container runtime for the docker CLI
 brew install docker-compose
 brew install ffmpeg

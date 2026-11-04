@@ -53,6 +53,30 @@ function doIt() {
 	else
 		cp pi/settings.json ~/.pi/agent/settings.json;
 	fi;
+	# OpenRouter key for pi: kept in the macOS Keychain (service "openrouter") and read by pi at startup
+	# through a `!command` in auth.json, so the key itself is never written to disk.
+	if command -v security >/dev/null; then
+		if ! security find-generic-password -s openrouter >/dev/null 2>&1 && [[ -t 0 ]]; then
+			printf "OpenRouter API key for pi (https://openrouter.ai/keys, Return to skip): ";
+			read -rs openrouter_key;
+			echo "";
+			[[ -n $openrouter_key ]] && security add-generic-password -a "$USER" -s openrouter -w "$openrouter_key";
+			unset openrouter_key;
+		fi;
+		pi_auth=~/.pi/agent/auth.json;
+		if security find-generic-password -s openrouter >/dev/null 2>&1 && command -v jq >/dev/null; then
+			[[ -f $pi_auth ]] || echo '{}' > "$pi_auth";
+			# Leave an existing openrouter entry (e.g. from /login) alone
+			if ! jq -e '.openrouter' "$pi_auth" >/dev/null; then
+				jq '.openrouter = {type: "api_key", key: "!security find-generic-password -s openrouter -w"}' "$pi_auth" > "$pi_auth.tmp" \
+					&& mv "$pi_auth.tmp" "$pi_auth";
+			fi;
+			chmod 600 "$pi_auth";
+		elif ! [[ -f $pi_auth ]] || ! jq -e '.openrouter' "$pi_auth" >/dev/null 2>&1; then
+			echo "⚠️  No OpenRouter key for pi. Add one with: security add-generic-password -a \"\$USER\" -s openrouter -w, then re-run bootstrap.sh";
+		fi;
+		unset pi_auth;
+	fi;
 	# Install packages declared in settings (e.g. pi-open-tui, pi-memory)
 	command -v pi >/dev/null && pi update --extensions;
 	# Re-apply local patches to those packages (pi update reinstalls them unpatched)
