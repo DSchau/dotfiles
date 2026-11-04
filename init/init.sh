@@ -53,6 +53,17 @@ EOF
 
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 
+# cloudflared (the ProxyCommand above) writes its Access token/JWKS cache to ~/.cloudflared.
+# If that dir was ever created by `sudo cloudflared ...` it's root-owned and ssh fails with
+# "permission denied" / "Connection closed by UNKNOWN port 65535".
+CLOUDFLARED_DIR=${HOME}/.cloudflared
+mkdir -p "$CLOUDFLARED_DIR"
+if [ -n "$(find "$CLOUDFLARED_DIR" ! -user "$(id -u)" -print -quit)" ]; then
+  echo "Fixing ownership of $CLOUDFLARED_DIR (needs sudo)"
+  sudo chown -R "$(id -u)":"$(id -g)" "$CLOUDFLARED_DIR"
+fi
+chmod 700 "$CLOUDFLARED_DIR"
+
 # Create connection with remote PC
 ## does not require password when ssh'ing to htpc
 ## runs after ~/.ssh/config has the Cloudflare ProxyCommand; times out instead of hanging
