@@ -16,17 +16,9 @@ if ! command -v mas &>/dev/null; then
   brew install mas
 fi
 
-############################################
-# Ensure signed in to App Store            #
-############################################
-
-if ! mas account &>/dev/null; then
-  echo "ERROR: Not signed in to the Mac App Store."
-  echo "  Open the App Store app, sign in, then re-run this script."
-  exit 1
-fi
-
-echo "Signed in as: $(mas account)"
+# Note: `mas account` can't detect App Store sign-in on macOS 12+ (it always
+# errors), so there's no sign-in check. Sign in to the App Store app first;
+# `mas install` fails per-app if you aren't.
 
 ############################################
 # Install apps                             #
@@ -37,22 +29,22 @@ mas_install_by_name() {
 
   # Search and find a line whose app name field exactly matches (case-insensitive).
   # mas search output format:  <id>  <App Name> (<version>)
+  # Portable awk (macOS awk has no 3-arg match()).
   local result
   result=$(mas search "$name" 2>/dev/null \
     | awk -v target="$name" '
         {
-          # Strip leading whitespace, grab id, then everything up to the version in parens
-          match($0, /^ *([0-9]+) +(.+) \([^)]+\)$/, arr)
-          id   = arr[1]
-          title = arr[2]
-          # Trim trailing spaces from title
-          gsub(/[[:space:]]+$/, "", title)
-          if (tolower(title) == tolower(target)) {
-            print id
-            exit
-          }
+          line = $0
+          sub(/^[[:space:]]+/, "", line)
+          id = line
+          sub(/[[:space:]].*$/, "", id)
+          title = line
+          sub(/^[0-9]+[[:space:]]+/, "", title)
+          sub(/[[:space:]]*\([^)]*\)[[:space:]]*$/, "", title)
+          if (found == "" && tolower(title) == tolower(target)) found = id
         }
-      ')
+        END { print found }
+      ' || true)
 
   if [[ -z "$result" ]]; then
     echo "  WARN: '$name' not found in the App Store — skipping."
@@ -61,7 +53,7 @@ mas_install_by_name() {
 
   local app_id="$result"
 
-  if mas list | awk '{print $1}' | grep -q "^${app_id}$"; then
+  if mas list | awk -v id="$app_id" '$1 == id { f = 1 } END { exit !f }'; then
     echo "  already installed: $name"
     return 0
   fi
