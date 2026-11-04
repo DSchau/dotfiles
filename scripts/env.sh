@@ -13,7 +13,9 @@ LAN_PREFIX=192.168.0.
 # The interface with the default route (Wi-Fi isn't always en0).
 iface=$(route -n get default 2>/dev/null | awk '/interface:/ { print $2 }')
 ip=$(ipconfig getifaddr "${iface:-en0}" 2>/dev/null || true)
-if [[ $ip == "$LAN_PREFIX"* ]]; then
+if [[ $ip == "$HTPC_LAN_IP" ]]; then
+  export ON_LAN=1 ON_HTPC=1 HTPC_HOST=localhost   # the card is in the Mac Studio itself: no SSH, /media is local
+elif [[ $ip == "$LAN_PREFIX"* ]]; then
   export ON_LAN=1 HTPC_HOST=$HTPC_LAN_IP
 else
   export ON_LAN=0 HTPC_HOST=ssh.dschau.dev   # Cloudflare tunnel: fine for ssh, far too slow for GBs of media
@@ -21,7 +23,11 @@ fi
 unset iface ip
 
 export SSH_CONNECTION_STRING="dschau@$HTPC_HOST"
-export MEDIA_DIR=${MEDIA_DIR:-"$SSH_CONNECTION_STRING:/media"}
+if ((${ON_HTPC:-0})); then
+  export MEDIA_DIR=${MEDIA_DIR:-/media}
+else
+  export MEDIA_DIR=${MEDIA_DIR:-"$SSH_CONNECTION_STRING:/media"}
+fi
 
 # Every rsync/ssh in a run shares one SSH connection.
 export SSH_OPTS="-o ControlMaster=auto -o ControlPath=~/.ssh/cm-%C -o ControlPersist=60"
