@@ -29,10 +29,11 @@ if [ ! -d "/Library/Developer/CommandLineTools" ]; then
 fi
 
 # Machine type from the hardware model name, e.g. "Mac Studio" -> mac-studio,
-# "MacBook Pro" -> macbook, "Mac mini" -> mac-mini
+# "MacBook Pro" -> mbp, "MacBook Air" -> mba, "Mac mini" -> mac-mini
 model_name=$(system_profiler SPHardwareDataType 2>/dev/null | awk -F": " "/Model Name/ {print \$2; exit}")
 case "$model_name" in
-  MacBook*) machine_type="macbook";;
+  "MacBook Pro") machine_type="mbp";;
+  "MacBook Air") machine_type="mba";;
   "") machine_type="mac";;
   *) machine_type=$(echo "$model_name" | tr "[:upper:]" "[:lower:]" | tr -s " " "-");;
 esac
