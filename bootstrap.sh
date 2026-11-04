@@ -64,14 +64,19 @@ function doIt() {
 			unset openrouter_key;
 		fi;
 		pi_auth=~/.pi/agent/auth.json;
-		if security find-generic-password -s openrouter >/dev/null 2>&1 && command -v jq >/dev/null; then
-			[[ -f $pi_auth ]] || echo '{}' > "$pi_auth";
-			# Leave an existing openrouter entry (e.g. from /login) alone
-			if ! jq -e '.openrouter' "$pi_auth" >/dev/null; then
-				jq '.openrouter = {type: "api_key", key: "!security find-generic-password -s openrouter -w"}' "$pi_auth" > "$pi_auth.tmp" \
-					&& mv "$pi_auth.tmp" "$pi_auth";
+		if security find-generic-password -s openrouter >/dev/null 2>&1; then
+			if command -v jq >/dev/null; then
+				[[ -f $pi_auth ]] || echo '{}' > "$pi_auth";
+				# Leave an existing openrouter entry (e.g. from /login) alone
+				if ! jq -e '.openrouter' "$pi_auth" >/dev/null; then
+					jq '.openrouter = {type: "api_key", key: "!security find-generic-password -s openrouter -w"}' "$pi_auth" > "$pi_auth.tmp" \
+						&& mv "$pi_auth.tmp" "$pi_auth" \
+						|| rm -f "$pi_auth.tmp";
+				fi;
+				chmod 600 "$pi_auth";
+			elif ! grep -qs '"openrouter"' "$pi_auth"; then
+				echo "⚠️  OpenRouter key is in the Keychain, but jq is needed to point pi at it. Run ./brew.sh, then re-run bootstrap.sh";
 			fi;
-			chmod 600 "$pi_auth";
 		elif ! [[ -f $pi_auth ]] || ! jq -e '.openrouter' "$pi_auth" >/dev/null 2>&1; then
 			echo "⚠️  No OpenRouter key for pi. Add one with: security add-generic-password -a \"\$USER\" -s openrouter -w, then re-run bootstrap.sh";
 		fi;
