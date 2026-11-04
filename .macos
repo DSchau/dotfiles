@@ -28,15 +28,25 @@ if [ ! -d "/Library/Developer/CommandLineTools" ]; then
 	xcode-select --install
 fi
 
-computer_name="dschau"
-suffix=""
-
-read -p "Work machine (y/n)?" choice
-case "$choice" in 
-  y|Y ) computer_name="dschau-work";;
-  n|N ) echo "Noted! Will set computer name to $computer_name";;
-  * ) echo "Try again. y or n";;
+# Machine type from the hardware model name, e.g. "Mac Studio" -> mac-studio,
+# "MacBook Pro" -> macbook, "Mac mini" -> mac-mini
+model_name=$(system_profiler SPHardwareDataType 2>/dev/null | awk -F": " "/Model Name/ {print \$2; exit}")
+case "$model_name" in
+  MacBook*) machine_type="macbook";;
+  "") machine_type="mac";;
+  *) machine_type=$(echo "$model_name" | tr "[:upper:]" "[:lower:]" | tr -s " " "-");;
 esac
+
+while true; do
+  read -p "Work machine (y/n)? " choice
+  case "$choice" in
+    y|Y ) usage="work"; break;;
+    n|N ) usage="personal"; break;;
+    * ) echo "Try again. y or n";;
+  esac
+done
+
+computer_name="$machine_type-$usage"
 
 echo "Setting computer name, host name, and local host name to $computer_name"
 
