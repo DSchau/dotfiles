@@ -38,6 +38,17 @@ else
   echo "~/.ssh/config exists"
 fi
 
+# ssh.dschau.dev is reached through a Cloudflare Tunnel, so cloudflared must
+# exist before any ssh to it (init.sh runs before brew.sh on a fresh machine)
+if ! command -v cloudflared >/dev/null 2>&1; then
+  if command -v brew >/dev/null 2>&1; then
+    brew install cloudflared
+  else
+    echo "cloudflared not found and Homebrew unavailable; run ./brew.sh first"
+  fi
+fi
+CLOUDFLARED=$(command -v cloudflared || echo cloudflared)
+
 # Create connection with remote PC
 ## does not require password when ssh'ing to htpc
 ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev
@@ -45,7 +56,7 @@ ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev
 cat <<EOF >> $SSH_FILE
 # Cloudflare Tunnel
 Host ssh.dschau.dev
-  ProxyCommand /opt/homebrew/bin/cloudflared access ssh --hostname %h
+  ProxyCommand ${CLOUDFLARED} access ssh --hostname %h
 
 # GitHub
 Host github.com
