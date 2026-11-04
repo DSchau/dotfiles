@@ -290,10 +290,12 @@ dock_item() {
 # note: no commas between items
 dock_items=(
 	"/Applications/Arc.app"
+	"/Applications/Google Chrome.app"
 	"/Applications/Spotify.app"
 	"/Applications/Spark Desktop.app"
 	"/Applications/Slack.app"
 	"/Applications/Ghostty.app"
+	"/Applications/Rex Beta.app"
 	"/Applications/Zed.app"
 	"/System/Applications/Messages.app"
 )

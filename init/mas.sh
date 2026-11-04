@@ -87,4 +87,8 @@ while IFS= read -r line; do
 done < "$APPS_FILE"
 
 echo ""
+echo "Not on the App Store — install manually:"
+echo "  Rex (Superlogical beta): https://www.superlogical.com/beta/join/yA5Ca9n2sQ"
+
+echo ""
 echo "Done."
