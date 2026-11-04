@@ -30,7 +30,8 @@ function doIt() {
 	# Install pi (https://pi.dev) if missing
 	export PATH="$HOME/.pi/agent/bin:$PATH";
 	if ! command -v pi >/dev/null; then
-		curl -fsSL https://pi.dev/install.sh | sh;
+		# Piping through cat makes stdout a non-TTY, so the installer skips its "Start pi now?" prompt
+		curl -fsSL https://pi.dev/install.sh | sh | cat;
 	fi;
 
 	# Merge pi agent settings (preserves runtime keys pi writes, e.g. lastChangelogVersion)
