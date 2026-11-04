@@ -30,8 +30,9 @@ mas_install_by_name() {
   # Search and find a line whose app name field exactly matches (case-insensitive).
   # mas search output format:  <id>  <App Name> (<version>)
   # Portable awk (macOS awk has no 3-arg match()).
-  local result
-  result=$(mas search "$name" 2>/dev/null \
+  local search_output result
+  search_output=$(mas search "$name" 2>/dev/null || true)
+  result=$(printf '%s\n' "$search_output" \
     | awk -v target="$name" '
         {
           line = $0
@@ -48,12 +49,17 @@ mas_install_by_name() {
 
   if [[ -z "$result" ]]; then
     echo "  WARN: '$name' not found in the App Store — skipping."
+    # App Store names drift; show the closest listings so mas_apps.txt is easy to fix.
+    if [[ -n "$search_output" ]]; then
+      echo "        Closest matches:"
+      printf '%s\n' "$search_output" | head -n 3 | sed 's/^[[:space:]]*/          /'
+    fi
     return 0
   fi
 
   local app_id="$result"
 
-  if mas list | awk -v id="$app_id" '$1 == id { f = 1 } END { exit !f }'; then
+  if mas list 2>/dev/null | awk -v id="$app_id" '$1 == id { f = 1 } END { exit !f }'; then
     echo "  already installed: $name"
     return 0
   fi
