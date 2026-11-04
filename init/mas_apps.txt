@@ -4,7 +4,6 @@
 
 # Productivity
 Fantastical - Calendar
-Spark Mail - AI Email & Inbox
 
 # Utilities
 Battery Indicator

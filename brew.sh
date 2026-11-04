@@ -164,6 +164,7 @@ brew install --cask google-chrome
 brew install --cask linear
 brew install --cask opal-composer
 brew install --cask raycast
+brew install --cask readdle-spark # Spark Desktop.app (direct download, not the App Store build)
 brew install --cask slack
 brew install --cask spotify
 brew install --cask vlc
