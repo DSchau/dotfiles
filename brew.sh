@@ -44,6 +44,9 @@ brew install wget
 # Install GnuPG to enable PGP-signing commits.
 brew install gnupg
 
+# install tmux for nice ssh affordances
+brew install tmux
+
 # Install more recent versions of some macOS tools.
 brew install vim
 echo 'If you would like to map vi so it opens the brew-installed vim: ln -s /usr/local/bin/vim /usr/local/bin/vi'
