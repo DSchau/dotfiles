@@ -53,6 +53,14 @@ function doIt() {
 	else
 		cp pi/settings.json ~/.pi/agent/settings.json;
 	fi;
+	# Merge pi auth: the OpenRouter key is read from 1Password at runtime, never written to disk
+	if [[ -f ~/.pi/agent/auth.json ]] && command -v jq >/dev/null; then
+		jq -s '.[0] * .[1]' ~/.pi/agent/auth.json pi/auth.json > ~/.pi/agent/auth.json.tmp \
+			&& mv ~/.pi/agent/auth.json.tmp ~/.pi/agent/auth.json;
+	else
+		cp pi/auth.json ~/.pi/agent/auth.json;
+	fi;
+	chmod 600 ~/.pi/agent/auth.json;
 	# Install packages declared in settings (e.g. pi-open-tui, pi-memory)
 	command -v pi >/dev/null && pi update --extensions;
 	# Re-apply local patches to those packages (pi update reinstalls them unpatched)

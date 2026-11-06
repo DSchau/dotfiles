@@ -39,7 +39,7 @@ To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstr
   `pi update` reinstalls packages without the patch, so run `~/dotfiles/pi/patch-packages.sh` afterwards. pi-memory is pinned to 0.4.2 in `pi/settings.json` so the patch keeps applying. To upgrade, bump the pin, rebase the patch, and rename the patch file to match the new version
 - `showCacheMissNotices` in `pi/settings.json` shows prompt-cache misses, which are where tokens get wasted
 
-The default provider is OpenRouter. The API key is **not** committed. Create one at [openrouter.ai/keys](https://openrouter.ai/keys), then run `/login` in pi. pi saves it to `~/.pi/agent/auth.json`, outside the repo. pi also reads an `OPENROUTER_API_KEY` environment variable if one is set.
+The default provider is OpenRouter. The API key is **not** committed. It lives in 1Password as an API Credential item named `OpenRouter` in the `Personal` vault. `bootstrap.sh` merges `pi/auth.json` into `~/.pi/agent/auth.json`, and that entry tells pi to run `op read op://Personal/OpenRouter/credential` the first time it needs the key. pi keeps the key in memory only, so it's never written to disk or exported to your shell (where the agent's own commands could read it with `env`). This needs the 1Password CLI integration turned on: 1Password → Settings → Developer → Integrate with 1Password CLI. To set it up, create a key at [openrouter.ai/keys](https://openrouter.ai/keys) with a credit limit and save it in that item.
 
 ### Zed
 
