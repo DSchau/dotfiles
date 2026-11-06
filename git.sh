@@ -30,11 +30,12 @@ done < <(grep '^git@github.com' git_repos.txt)
 # Enable case-insensitive matching
 shopt -s nocasematch
 
-for repo in "${GIT_REPOS[@]}"; do
-  # Extract the organization and repo name from the URL
-  # URL format: git@github.com:Organization/repo_name.git
+for entry in "${GIT_REPOS[@]}"; do
+  # Line format: git@github.com:Organization/repo_name.git [local_folder_name]
+  read -r repo custom_name <<< "$entry"
   org_name=$(echo "$repo" | cut -d':' -f2 | cut -d'/' -f1)
   repo_name=$(echo "$repo" | cut -d':' -f2 | cut -d'/' -f2 | cut -d'.' -f1)
+  repo_name="${custom_name:-$repo_name}"
 
   if [[ "$org_name" == "DSchau" ]]; then
     # Personal repo, clone to the Personal directory

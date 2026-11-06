@@ -1,5 +1,8 @@
+# one repo per line; an optional second column overrides the local folder name
+
 # personal
-git@github.com:DSchau/personal-website-2024.git
+git@github.com:DSchau/personal-website-2024.git website
+git@github.com:DSchau/transmission-web.git
 
 # work
 git@github.com:adaptcom/adapt.git
