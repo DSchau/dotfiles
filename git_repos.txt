@@ -5,9 +5,4 @@ git@github.com:DSchau/personal-website-2024.git website
 git@github.com:DSchau/transmission-web.git
 
 # work
-git@github.com:adaptcom/adapt.git
-git@github.com:adaptcom/adapt-ios.git
-git@github.com:adaptcom/adapt-android.git
-git@github.com:adaptcom/skills.git
-git@github.com:adaptcom/adapt.com.git
-git@github.com:adaptcom/docs.git
+git@github.com:mastra-ai/mastra.git
