@@ -295,6 +295,7 @@ dock_items=(
 	"/Applications/Slack.app"
 	"/Applications/Rex Beta.app"
 	"/Applications/Zed.app"
+	"/Applications/Muse.app"
 	"/System/Applications/Messages.app"
 )
 
