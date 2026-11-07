@@ -39,7 +39,15 @@ To update, from this repo: `source bootstrap.sh` (use `set -- -f; source bootstr
   `pi update` reinstalls packages without the patch, so run `~/dotfiles/pi/patch-packages.sh` afterwards. pi-memory is pinned to 0.4.2 in `pi/settings.json` so the patch keeps applying. To upgrade, bump the pin, rebase the patch, and rename the patch file to match the new version
 - `showCacheMissNotices` in `pi/settings.json` shows prompt-cache misses, which are where tokens get wasted
 
-The default provider is OpenRouter. The API key is **not** committed. `bootstrap.sh` merges `pi/auth.json` into `~/.pi/agent/auth.json`. That entry tells pi to read the key from the macOS Keychain (service `openrouter-api-key`) the first time it needs it, and to fall back to `op read op://Personal/OpenRouter/credential` if the Keychain doesn't have it. pi keeps the key in memory only, so it's never written to a file or exported to your shell, where the agent's own commands could read it with `env`.
+#### Default model
+
+The default is `claude-code/default` (same as `pi --model claude-code/default`), from the [`pi-claude-code`](https://github.com/earendil-works/pi-claude-code) package. It sends requests through the Claude Code CLI (`claude -p`, installed by `brew.sh`), so they use your Claude Pro/Max subscription instead of API credits. Log in once with `claude auth login`, then check it with `/claude-code-status` in pi.
+
+`default` is whatever Claude Code currently recommends. It's **Opus 5.5 with 1M context** (`claude-opus-5-5[1m]`, Claude Code 2.1.311, November 2026). Thinking defaults to `high`. Run `pi --list-models | grep claude-code` to see what it resolves to now. To pin a specific model, use its ID instead, e.g. `pi --model claude-code/claude-opus-5-5`.
+
+#### OpenRouter
+
+OpenRouter models are still enabled (`/model` or `pi --model openrouter/anthropic/claude-opus-5.5`). The API key is **not** committed. `bootstrap.sh` merges `pi/auth.json` into `~/.pi/agent/auth.json`. That entry tells pi to read the key from the macOS Keychain (service `openrouter-api-key`) the first time it needs it, and to fall back to `op read op://Personal/OpenRouter/credential` if the Keychain doesn't have it. pi keeps the key in memory only, so it's never written to a file or exported to your shell, where the agent's own commands could read it with `env`.
 
 The Keychain comes first because the 1Password CLI has to be approved separately in each terminal, and pi hides the lookup's errors. A new tab then shows "No models available" with no explanation. To copy the key into the Keychain once on each Mac, run `security add-generic-password -a "$USER" -s openrouter-api-key -U -w` and paste the key from the `OpenRouter` item in your 1Password Personal vault. Create the key at [openrouter.ai/keys](https://openrouter.ai/keys) with a credit limit.
 

@@ -1,8 +1,9 @@
 {
-  "defaultProvider": "openrouter",
-  "defaultModel": "anthropic/claude-opus-5.5",
+  "defaultProvider": "claude-code",
+  "defaultModel": "default",
   "defaultThinkingLevel": "high",
   "enabledModels": [
+    "claude-code/*",
     "openrouter/anthropic/*",
     "openrouter/meta/muse-spark-*",
     "openrouter/moonshotai/*",
@@ -11,7 +12,8 @@
   ],
   "packages": [
     "npm:pi-open-tui",
-    "npm:pi-memory@0.4.2"
+    "npm:pi-memory@0.4.2",
+    "https://github.com/earendil-works/pi-claude-code"
   ],
   "quietStartup": true,
   "showCacheMissNotices": true,
