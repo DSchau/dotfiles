@@ -44,6 +44,17 @@ fi
 export SSH_OPTS="-o ControlMaster=auto -o ControlPath=~/.ssh/cm-%C -o ControlPersist=60"
 export RSYNC_SSH="ssh $SSH_OPTS"
 
+# GNU rsync (brew install rsync) if it's there. macOS's openrsync prints nothing until the whole transfer is done (so
+# no progress) and ignores --chmod. The other machine's rsync stays whatever its PATH has; they interoperate.
+RSYNC=rsync
+[[ -x /opt/homebrew/bin/rsync ]] && RSYNC=/opt/homebrew/bin/rsync
+export RSYNC
+# Every copy to the NAS: -rlt, not -a, so it never tries to set the NAS folders' owner, mode or times (it may not:
+# "unable to escalate mode", "utimensat: Operation not permitted"). Camera cards are exFAT and report every file as
+# rwx------, so new files get 644 and new folders 755 instead. %b in the out-format makes rsync print a file's name
+# once it's done, not when it starts.
+COPY=(-rlt --omit-dir-times --chmod=D755,F644 --partial -e "$RSYNC_SSH" --out-format='%n|%l|%b')
+
 # Files on the card are kept by default: the NAS is the only other copy until photo-backup has uploaded them.
 # Reformat the card in the camera once it reports exit 0 (`media.sh status`). REMOVE_FROM_CARD=1 deletes them
 # from the card as soon as they're on the NAS (the old behavior).
@@ -62,23 +73,27 @@ show_plan() {
     END { printf "  = %d file(s), %s\n", n, human(total) }'
 }
 
-# count: rsync --out-format='%n|%l' lines (from a --dry-run) → "<files> <bytes>", for progress.
+# count: rsync --out-format='%n|%l|…' lines (from a --dry-run) → "<files> <bytes>", for progress.
 count() {
   awk -F'|' '$1 != "" && $1 !~ /\/$/ { n++; b += $2 } END { print n + 0, b + 0 }'
 }
 
-# progress <label> <files> <bytes>: passes "name|bytes" lines through as names (for the log), and keeps one line on
-# the terminal up to date: "   <label> 312/758 · 11.2 GB of 27.2 GB  DSC01234.ARW". The terminal is fd 3, which
-# media.sh opens; without it this only passes the names through. rsync prints a name once the file is done.
+# progress <label> <verb> <files> <bytes>: for each finished file ("name|bytes" lines from rsync, or just names), logs
+# "<verb> <name> (<size>)" on stdout and keeps one line on the terminal up to date:
+#   "   Copying originals 312/758 · 11.2 GB of 27.2 GB  DSC01234.ARW"
+# The terminal is fd 3, which media.sh opens; without it there's only the log line.
 progress() {
-  if ! { true >&3; } 2>/dev/null; then cut -d'|' -f1; return; fi
-  awk -F'|' -v label="$1" -v nt="$2" -v bt="$3" '
+  local tty=1
+  { true >&3; } 2>/dev/null || tty=0
+  awk -F'|' -v label="$1" -v verb="$2" -v nt="$3" -v bt="$4" -v tty="$tty" '
     function human(b,  u, i) { split("B KB MB GB TB", u, " "); i = 1; while (b >= 1024 && i < 5) { b /= 1024; i++ }
                                return sprintf(i == 1 ? "%d %s" : "%.1f %s", b, u[i]) }
     $1 == "" || $1 ~ /\/$/ { next }
-    { n++; b += $2; print $1; fflush()
+    { n++; b += $2
+      printf "  %s %s%s\n", verb, $1, ($2 == "" ? "" : " (" human($2) ")"); fflush()
+      if (!tty) next
       name = $1; sub(/.*\//, "", name)
       line = sprintf("   %s %d/%d", label, n, nt); if (bt > 0) line = line " · " human(b) " of " human(bt)
       printf "\r\033[K%s  %s", line, name > "/dev/fd/3"; fflush("/dev/fd/3") }
-    END { if (n) printf "\n" > "/dev/fd/3" }'
+    END { if (n && tty) printf "\n" > "/dev/fd/3" }'
 }

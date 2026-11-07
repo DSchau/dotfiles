@@ -14,10 +14,11 @@ send() {  # send <label> <rsync args...>
   local label=$1 files bytes
   shift
   if ((DRY_RUN)); then
-    rsync -a --dry-run -e "$RSYNC_SSH" --out-format='%n|%l' "$@" | show_plan copy "$dest"
+    "$RSYNC" "${COPY[@]}" --dry-run "$@" | show_plan copy "$dest"
   else
-    read -r files bytes < <(rsync -a --dry-run -e "$RSYNC_SSH" --out-format='%n|%l' "$@" | count)
-    rsync -a --partial -e "$RSYNC_SSH" --out-format='%n|%l' "$@" | progress "$label" "$files" "$bytes"
+    read -r files bytes < <("$RSYNC" "${COPY[@]}" --dry-run "$@" | count)
+    echo "🎥 $label: $files file(s)"
+    "$RSYNC" "${COPY[@]}" "$@" | progress "$label" copied "$files" "$bytes"
   fi
 }
 

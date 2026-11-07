@@ -5,14 +5,19 @@
 #   media.sh            copy everything to the NAS, then start photo-backup
 #   media.sh --dry-run  list what would be copied, converted and deleted (~/logs/media-dry-run.log); change nothing
 #   media.sh status     the last photo-backup run (reformat the card once all 4 jobs end with exit 0)
+#
+# ~/logs/media.log: what each run did, one line per file (tail -f it while it runs). Over 5 MB it moves to
+# media.log.1. MEDIA_DEBUG=1 media.sh writes each step's output with a bash trace to ~/logs/media.trace.log instead.
 set -uo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ ${1:-} == --dry-run || ${1:-} == dry-run ]] && export DRY_RUN=1
 source "$DIR/env.sh"
 
 LOG="$LOG_DIR/media.log"
+TRACE="$LOG_DIR/media.trace.log"
 REPORT="$LOG_DIR/media-dry-run.log"
 mkdir -p "$LOG_DIR"
+if [[ -f $LOG ]] && (($(stat -f %z "$LOG") > 5 * 1024 * 1024)); then mv -f "$LOG" "$LOG.1"; fi
 
 remote() {
   if ((${ON_HTPC:-0})); then bash -c "$*"; else ssh $SSH_OPTS "$SSH_CONNECTION_STRING" "$@"; fi
@@ -33,8 +38,11 @@ add_date() {
   while IFS= read -r line; do printf '%s %s\n' "$(date '+%F %T')" "$line"; done
 }
 
+printf '\n──── media%s ────\n' "$( ((DRY_RUN)) && echo ' --dry-run')" | add_date >>"$LOG"
+if ((${MEDIA_DEBUG:-0})); then : >"$TRACE"; fi
+
 # What this run will read and where it writes: the first thing to check when the camera mounts somewhere unexpected.
-{
+header=$({
   ((DRY_RUN)) && echo "DRY RUN $(date '+%F %T'): nothing is copied, converted or deleted"
   if [[ -d $CARD_DIR ]]; then
     echo "Card:   $CARD_DIR ($(df -h "$CARD_DIR" | awk 'NR == 2 { print $3 " used" }'))"
@@ -46,15 +54,21 @@ add_date() {
   fi
   echo "NAS:    $MEDIA_DIR (Videos/Home, Pictures/Source, Pictures/Optimized)"
   echo "Card files: $([[ $REMOVE_FROM_CARD == 1 ]] && echo 'deleted once on the NAS (REMOVE_FROM_CARD=1)' || echo 'kept')"
-} | if ((DRY_RUN)); then tee "$REPORT"; else cat; fi | tee >(add_date >>"$LOG")
+})
+echo "$header"
+echo "$header" | add_date >>"$LOG"
+((DRY_RUN)) && echo "$header" >"$REPORT"
 
 # fd 3 is the terminal, for the scripts' progress lines (progress in env.sh); everything else goes to the log
 exec 3>&1
 
 failed=0
-run() {  # run <emoji> <name> <script>: trace and output go to the log, a summary to the terminal
-  echo -e "$1 \033[1m$2\033[0m running (tail -f $LOG)"
-  echo "==== $3$( ((DRY_RUN)) && echo ' (dry run)')" | add_date >>"$LOG"
+took() { local s=$((SECONDS - $1)); ((s >= 60)) && echo "$((s / 60))m $((s % 60))s" || echo "${s}s"; }
+
+run() {  # run <emoji> <name> <script>: its output goes to the log, progress and a summary to the terminal
+  local start=$SECONDS rc=0
+  echo -e "$1 \033[1m$2\033[0m running (details: tail -f $LOG)"
+  echo "$1 $2$( ((DRY_RUN)) && echo ' (dry run)')" | add_date >>"$LOG"
   if ((DRY_RUN)); then
     # No trace: the plan is the output. It goes to the report and the log; totals to the terminal.
     if "$BASH" "$DIR/$3" 2>&1 | tee -a "$REPORT" | tee >(add_date >>"$LOG") |
@@ -64,10 +78,21 @@ run() {  # run <emoji> <name> <script>: trace and output go to the log, a summar
       echo -e "   ❌ \033[1m$3\033[0m failed, see $REPORT" >&2
       failed=1
     fi
-  elif "$BASH" -x "$DIR/$3" 2>&1 | add_date >>"$LOG"; then
-    echo -e "   ✅ done"
+    return
+  fi
+  if ((${MEDIA_DEBUG:-0})); then
+    echo "==== $3" >>"$TRACE"
+    echo "(MEDIA_DEBUG: this step's output and trace are in $TRACE)" | add_date >>"$LOG"
+    "$BASH" -x "$DIR/$3" 2>&1 | add_date >>"$TRACE" || rc=$?
   else
-    echo -e "   ❌ \033[1m$3\033[0m failed, see $LOG" >&2
+    "$BASH" "$DIR/$3" 2>&1 | add_date >>"$LOG" || rc=$?
+  fi
+  if ((rc == 0)); then
+    echo -e "   ✅ done in $(took $start)"
+    echo "✅ $2 done in $(took $start)" | add_date >>"$LOG"
+  else
+    echo -e "   ❌ \033[1m$2\033[0m failed (exit $rc), see $LOG" >&2
+    echo "❌ $2 FAILED (exit $rc) after $(took $start)" | add_date >>"$LOG"
     failed=1
   fi
 }
@@ -86,6 +111,7 @@ fi
 
 if ((failed)); then
   echo -e "🛑 Not starting the backup to R2 / Google Photos. Fix the error and run media.sh again." >&2
+  echo "🛑 photo-backup not started: a step failed" | add_date >>"$LOG"
   exit 1
 fi
 
@@ -101,8 +127,10 @@ fi
 # as in its launchd job: an SSH session has no flock, and macOS can block /bin/bash from the NAS.
 if remote 'PATH=/opt/homebrew/bin:$PATH nohup /opt/homebrew/bin/bash /usr/local/bin/photo-backup </dev/null >/dev/null 2>&1 &'; then
   echo -e "🍿 \033[1mphoto-backup\033[0m started on the Studio. Check it with: media.sh status"
+  echo "🍿 photo-backup started (its log: ~/logs/rclone.log)" | add_date >>"$LOG"
 else
   echo -e "❌ Couldn't start photo-backup on the Studio. It still runs at 04:00." >&2
+  echo "❌ photo-backup didn't start" | add_date >>"$LOG"
   exit 1
 fi
 if [[ $REMOVE_FROM_CARD != 1 && -d $CARD_DIR/DCIM ]]; then

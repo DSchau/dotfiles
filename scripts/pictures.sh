@@ -18,8 +18,7 @@ cd "$CARD_DIR"   # rsync and exiftool see paths relative to here (DCIM/…), nev
 
 # 1. Originals first. rsync skips what the NAS already has and prints only the files it sent.
 originals() {  # originals [--dry-run]
-  rsync -a --omit-dir-times --partial -e "$RSYNC_SSH" "$@" --exclude .DS_Store --exclude '._*' \
-    --out-format='%n|%l' DCIM "$OUTPUT_DIR/Source"
+  "$RSYNC" "${COPY[@]}" "$@" --exclude .DS_Store --exclude '._*' DCIM "$OUTPUT_DIR/Source"
 }
 if ((DRY_RUN)); then
   echo "📸 Originals in $CARD_DIR/DCIM:"
@@ -28,14 +27,17 @@ if ((DRY_RUN)); then
 else
   # A --dry-run first, for the totals in the progress line (it only lists, so it's quick)
   read -r files bytes < <(originals --dry-run | count)
-  originals | { grep -v '/|' || true; } | tee "$new.plan" | progress "Copying originals" "$files" "$bytes"
+  echo "📸 Copying originals: $files file(s)"
+  originals | { grep --line-buffered -v '/|' || true; } | tee "$new.plan" |
+    progress "Copying originals" copied "$files" "$bytes"
 fi
 cut -d'|' -f1 "$new.plan" >"$new.sent"
 grep -iE "$IMAGES" "$new.sent" |
   # RAW+JPEG pairs would both become NAME.jpg: convert one of them, the camera's JPEG.
   awk '{ k = $0; sub(/\.[^.\/]*$/, "", k); e = tolower(substr($0, length(k) + 2))
          if (!(k in f) || e ~ /^jpe?g$/) f[k] = $0 } END { for (k in f) print f[k] }' >"$new" || true
-echo "📸 $(wc -l <"$new.sent" | tr -d ' ') file(s) $( ((DRY_RUN)) && echo 'would be' ) copied to the NAS, $(wc -l <"$new" | tr -d ' ') to convert"
+echo "📸 $(wc -l <"$new.sent" | tr -d ' ') file(s) $( ((DRY_RUN)) && echo 'would be ' )copied to the NAS, $(wc -l <"$new" | tr -d ' ') to convert"
+((DRY_RUN)) || [[ ! -s $new ]] || echo "📸 Converting: $(wc -l <"$new" | tr -d ' ') file(s) (sips, JPEG quality 80)"
 if ((DRY_RUN)); then  # what's copied but not converted, and why (to tune IMAGES and the RAW+JPEG rule)
   sort "$new" >"$new.converted"
   sort "$new.sent" | comm -23 - "$new.converted" | while IFS= read -r f; do
@@ -67,10 +69,10 @@ elif [[ -s $new ]]; then
       mkdir -p "$OPTIMIZED_DIR/$year"
       printf '%s\0%s\0' "$file" "$OPTIMIZED_DIR/$year/${name%.*}.jpg"
     done |
-    xargs -0 -n 2 -P "$(sysctl -n hw.ncpu)" sh -c \
-      'if sips -s format jpeg -s formatOptions 80 "$0" --out "$1" >/dev/null; then echo "$1"
+    CARD="$CARD_DIR" OPT="$OPTIMIZED_DIR" xargs -0 -n 2 -P "$(sysctl -n hw.ncpu)" sh -c \
+      'if sips -s format jpeg -s formatOptions 80 "$0" --out "$1" >/dev/null; then echo "${0#"$CARD"/} → ${1#"$OPT"/}"
        else echo "  ❌ $0 (convert it by hand: it is on the NAS, so the next run skips it)" >&2; exit 1; fi' |
-    progress Converting "$(wc -l <"$new" | tr -d ' ')" 0 ||
+    progress Converting converted "$(wc -l <"$new" | tr -d ' ')" 0 ||
     convert_rc=$?
   if ((convert_rc)); then
     echo "⚠️  some conversions failed (xargs exit $convert_rc); the originals are on the NAS" >&2
@@ -79,8 +81,7 @@ fi
 
 # 3. Optimized JPEGs to the NAS (this also sends any left over from an earlier failed run).
 optimized() {  # optimized [rsync args]
-  rsync -a --partial -e "$RSYNC_SSH" --exclude .DS_Store --out-format='%n|%l' "$@" \
-    "$OPTIMIZED_DIR/" "$OUTPUT_DIR/Optimized"
+  "$RSYNC" "${COPY[@]}" --exclude .DS_Store "$@" "$OPTIMIZED_DIR/" "$OUTPUT_DIR/Optimized"
 }
 if ((DRY_RUN)); then
   if [[ -d $OPTIMIZED_DIR ]]; then
@@ -89,15 +90,15 @@ if ((DRY_RUN)); then
   fi
 else
   read -r files bytes < <(optimized --dry-run | count)
-  optimized --remove-source-files | progress "Copying JPEGs" "$files" "$bytes"
+  echo "📸 Copying JPEGs: $files file(s)"
+  optimized --remove-source-files | progress "Copying JPEGs" copied "$files" "$bytes"
 fi
 
 # 4. Only with REMOVE_FROM_CARD=1: delete the originals from the card (nothing left to send, so this only deletes).
 if [[ $REMOVE_FROM_CARD == 1 ]] && ((DRY_RUN)); then
   echo "📸 REMOVE_FROM_CARD=1: every DCIM file that's on the NAS would then be deleted from the card"
 elif [[ $REMOVE_FROM_CARD == 1 ]]; then
-  rsync -a --omit-dir-times -e "$RSYNC_SSH" --exclude .DS_Store --exclude '._*' --remove-source-files \
-    DCIM "$OUTPUT_DIR/Source"
+  "$RSYNC" "${COPY[@]}" --exclude .DS_Store --exclude '._*' --remove-source-files DCIM "$OUTPUT_DIR/Source"
 fi
 
 if ((DRY_RUN)); then echo "📸 Pictures: dry run, nothing copied, converted or deleted."; else echo "📸 Pictures sync complete."; fi
