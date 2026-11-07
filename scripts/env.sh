@@ -55,10 +55,10 @@ export RSYNC
 # once it's done, not when it starts.
 COPY=(-rlt --omit-dir-times --chmod=D755,F644 --partial -e "$RSYNC_SSH" --out-format='%n|%l|%b')
 
-# Files on the card are kept by default: the NAS is the only other copy until photo-backup has uploaded them.
-# Reformat the card in the camera once it reports exit 0 (`media.sh status`). REMOVE_FROM_CARD=1 deletes them
-# from the card as soon as they're on the NAS (the old behavior).
-export REMOVE_FROM_CARD=${REMOVE_FROM_CARD:-0}
+# Card files are deleted once they're safely on the NAS (rsync --remove-source-files: only after each file is
+# confirmed there; DCIM at the very end, after the JPEGs are made from it). Until photo-backup has uploaded them,
+# the NAS is then the only copy. REMOVE_FROM_CARD=0 keeps them on the card; reformat once `media.sh status` says exit 0.
+export REMOVE_FROM_CARD=${REMOVE_FROM_CARD:-1}
 
 # DRY_RUN=1 (media.sh --dry-run): list what would be copied, converted and deleted; change nothing.
 export DRY_RUN=${DRY_RUN:-0}
