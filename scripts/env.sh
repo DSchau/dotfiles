@@ -2,7 +2,18 @@
 # Shared settings for the camera ingest scripts (media.sh, videos.sh, pictures.sh).
 # How it all fits together: https://github.com/DSchau/htpc-knowledge/blob/main/CAMERA.md
 
-export CARD_DIR=${CARD_DIR:-/Volumes/Videos}   # the SD card
+# The SD card. In a reader it mounts as /Volumes/Videos; over USB the camera's volume may have another name, so
+# without that, use the one mounted volume that looks like a camera card (DCIM/ or PRIVATE/M4ROOT/).
+if [[ -z ${CARD_DIR:-} ]]; then
+  CARD_DIR=/Volumes/Videos
+  if [[ ! -d $CARD_DIR ]]; then
+    found=()
+    for v in /Volumes/*; do [[ -d $v/DCIM || -d $v/PRIVATE/M4ROOT ]] && found+=("$v"); done
+    ((${#found[@]} == 1)) && CARD_DIR=${found[0]}
+    unset found v
+  fi
+fi
+export CARD_DIR
 export VIDEO_DIR="$CARD_DIR/PRIVATE/M4ROOT/CLIP"
 export PICTURES_DIR="$CARD_DIR/DCIM"
 export LOG_DIR="$HOME/logs"
@@ -37,3 +48,16 @@ export RSYNC_SSH="ssh $SSH_OPTS"
 # Reformat the card in the camera once it reports exit 0 (`media.sh status`). REMOVE_FROM_CARD=1 deletes them
 # from the card as soon as they're on the NAS (the old behavior).
 export REMOVE_FROM_CARD=${REMOVE_FROM_CARD:-0}
+
+# DRY_RUN=1 (media.sh --dry-run): list what would be copied, converted and deleted; change nothing.
+export DRY_RUN=${DRY_RUN:-0}
+
+# show_plan <verb> <destination>: rsync --out-format='%n|%l' lines → "  <verb> <file> (<size>) → <dest>/<file>",
+# then a total. Folders (names ending in /) are skipped.
+show_plan() {
+  awk -F'|' -v verb="$1" -v dest="$2" '
+    function human(b,  u, i) { split("B KB MB GB TB", u, " "); i = 1; while (b >= 1024 && i < 5) { b /= 1024; i++ }
+                               return sprintf(i == 1 ? "%d %s" : "%.1f %s", b, u[i]) }
+    $1 != "" && $1 !~ /\/$/ { n++; total += $2; printf "  %s %s (%s) → %s/%s\n", verb, $1, human($2), dest, $1 }
+    END { printf "  = %d file(s), %s\n", n, human(total) }'
+}
