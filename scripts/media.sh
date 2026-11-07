@@ -48,6 +48,9 @@ add_date() {
   echo "Card files: $([[ $REMOVE_FROM_CARD == 1 ]] && echo 'deleted once on the NAS (REMOVE_FROM_CARD=1)' || echo 'kept')"
 } | if ((DRY_RUN)); then tee "$REPORT"; else cat; fi | tee >(add_date >>"$LOG")
 
+# fd 3 is the terminal, for the scripts' progress lines (progress in env.sh); everything else goes to the log
+exec 3>&1
+
 failed=0
 run() {  # run <emoji> <name> <script>: trace and output go to the log, a summary to the terminal
   echo -e "$1 \033[1m$2\033[0m running (tail -f $LOG)"

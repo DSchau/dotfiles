@@ -61,3 +61,24 @@ show_plan() {
     $1 != "" && $1 !~ /\/$/ { n++; total += $2; printf "  %s %s (%s) → %s/%s\n", verb, $1, human($2), dest, $1 }
     END { printf "  = %d file(s), %s\n", n, human(total) }'
 }
+
+# count: rsync --out-format='%n|%l' lines (from a --dry-run) → "<files> <bytes>", for progress.
+count() {
+  awk -F'|' '$1 != "" && $1 !~ /\/$/ { n++; b += $2 } END { print n + 0, b + 0 }'
+}
+
+# progress <label> <files> <bytes>: passes "name|bytes" lines through as names (for the log), and keeps one line on
+# the terminal up to date: "   <label> 312/758 · 11.2 GB of 27.2 GB  DSC01234.ARW". The terminal is fd 3, which
+# media.sh opens; without it this only passes the names through. rsync prints a name once the file is done.
+progress() {
+  if ! { true >&3; } 2>/dev/null; then cut -d'|' -f1; return; fi
+  awk -F'|' -v label="$1" -v nt="$2" -v bt="$3" '
+    function human(b,  u, i) { split("B KB MB GB TB", u, " "); i = 1; while (b >= 1024 && i < 5) { b /= 1024; i++ }
+                               return sprintf(i == 1 ? "%d %s" : "%.1f %s", b, u[i]) }
+    $1 == "" || $1 ~ /\/$/ { next }
+    { n++; b += $2; print $1; fflush()
+      name = $1; sub(/.*\//, "", name)
+      line = sprintf("   %s %d/%d", label, n, nt); if (bt > 0) line = line " · " human(b) " of " human(bt)
+      printf "\r\033[K%s  %s", line, name > "/dev/fd/3"; fflush("/dev/fd/3") }
+    END { if (n) printf "\n" > "/dev/fd/3" }'
+}

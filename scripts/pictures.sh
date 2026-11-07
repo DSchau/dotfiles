@@ -15,14 +15,21 @@ trap 'rm -f "$new" "$new".*' EXIT
 cd "$CARD_DIR"   # rsync and exiftool see paths relative to here (DCIM/…), never write to the card
 
 # Dry run: rsync and exiftool only read; nothing is copied, converted or deleted. Each step prints its plan.
-dry=()
-((DRY_RUN)) && dry=(--dry-run)
 
 # 1. Originals first. rsync skips what the NAS already has and prints only the files it sent.
-((DRY_RUN)) && echo "📸 Originals in $CARD_DIR/DCIM:"
-rsync -a --omit-dir-times --partial -e "$RSYNC_SSH" ${dry[@]+"${dry[@]}"} --exclude .DS_Store --exclude '._*' \
-  --out-format='%n|%l' DCIM "$OUTPUT_DIR/Source" | { grep -v '/|' || true; } >"$new.plan"
-((DRY_RUN)) && show_plan copy "$OUTPUT_DIR/Source" <"$new.plan"
+originals() {  # originals [--dry-run]
+  rsync -a --omit-dir-times --partial -e "$RSYNC_SSH" "$@" --exclude .DS_Store --exclude '._*' \
+    --out-format='%n|%l' DCIM "$OUTPUT_DIR/Source"
+}
+if ((DRY_RUN)); then
+  echo "📸 Originals in $CARD_DIR/DCIM:"
+  originals --dry-run | { grep -v '/|' || true; } >"$new.plan"
+  show_plan copy "$OUTPUT_DIR/Source" <"$new.plan"
+else
+  # A --dry-run first, for the totals in the progress line (it only lists, so it's quick)
+  read -r files bytes < <(originals --dry-run | count)
+  originals | { grep -v '/|' || true; } | tee "$new.plan" | progress "Copying originals" "$files" "$bytes"
+fi
 cut -d'|' -f1 "$new.plan" >"$new.sent"
 grep -iE "$IMAGES" "$new.sent" |
   # RAW+JPEG pairs would both become NAME.jpg: convert one of them, the camera's JPEG.
@@ -61,8 +68,9 @@ elif [[ -s $new ]]; then
       printf '%s\0%s\0' "$file" "$OPTIMIZED_DIR/$year/${name%.*}.jpg"
     done |
     xargs -0 -n 2 -P "$(sysctl -n hw.ncpu)" sh -c \
-      'if sips -s format jpeg -s formatOptions 80 "$0" --out "$1" >/dev/null; then echo "  $1"
-       else echo "  ❌ $0 (convert it by hand: it is on the NAS, so the next run skips it)" >&2; exit 1; fi' ||
+      'if sips -s format jpeg -s formatOptions 80 "$0" --out "$1" >/dev/null; then echo "$1"
+       else echo "  ❌ $0 (convert it by hand: it is on the NAS, so the next run skips it)" >&2; exit 1; fi' |
+    progress Converting "$(wc -l <"$new" | tr -d ' ')" 0 ||
     convert_rc=$?
   if ((convert_rc)); then
     echo "⚠️  some conversions failed (xargs exit $convert_rc); the originals are on the NAS" >&2
@@ -70,15 +78,18 @@ elif [[ -s $new ]]; then
 fi
 
 # 3. Optimized JPEGs to the NAS (this also sends any left over from an earlier failed run).
+optimized() {  # optimized [rsync args]
+  rsync -a --partial -e "$RSYNC_SSH" --exclude .DS_Store --out-format='%n|%l' "$@" \
+    "$OPTIMIZED_DIR/" "$OUTPUT_DIR/Optimized"
+}
 if ((DRY_RUN)); then
   if [[ -d $OPTIMIZED_DIR ]]; then
     echo "📸 Left over in $OPTIMIZED_DIR from an earlier run (sent along with the new JPEGs):"
-    rsync -a --dry-run -e "$RSYNC_SSH" --exclude .DS_Store --out-format='%n|%l' \
-      "$OPTIMIZED_DIR/" "$OUTPUT_DIR/Optimized" | show_plan copy "$OUTPUT_DIR/Optimized"
+    optimized --dry-run | show_plan copy "$OUTPUT_DIR/Optimized"
   fi
 else
-  rsync -a --partial -e "$RSYNC_SSH" --exclude .DS_Store --remove-source-files --out-format='%n' \
-    "$OPTIMIZED_DIR/" "$OUTPUT_DIR/Optimized"
+  read -r files bytes < <(optimized --dry-run | count)
+  optimized --remove-source-files | progress "Copying JPEGs" "$files" "$bytes"
 fi
 
 # 4. Only with REMOVE_FROM_CARD=1: delete the originals from the card (nothing left to send, so this only deletes).

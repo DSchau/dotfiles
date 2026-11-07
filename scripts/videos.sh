@@ -9,24 +9,28 @@ card=()
 [[ $REMOVE_FROM_CARD == 1 ]] && card=(--remove-source-files)
 
 # Dry run: rsync lists what it would send (with sizes) and copies nothing; show_plan makes that readable.
-send() {  # send <rsync args...>
+# Otherwise a --dry-run first gives the totals for the progress line (it only lists, so it's quick).
+send() {  # send <label> <rsync args...>
+  local label=$1 files bytes
+  shift
   if ((DRY_RUN)); then
     rsync -a --dry-run -e "$RSYNC_SSH" --out-format='%n|%l' "$@" | show_plan copy "$dest"
   else
-    rsync -a --partial -e "$RSYNC_SSH" --out-format='%n' "$@"
+    read -r files bytes < <(rsync -a --dry-run -e "$RSYNC_SSH" --out-format='%n|%l' "$@" | count)
+    rsync -a --partial -e "$RSYNC_SSH" --out-format='%n|%l' "$@" | progress "$label" "$files" "$bytes"
   fi
 }
 
 # The --exclude '*' also excludes subfolders, so these only copy the top level (CLIP/ is flat).
 if [[ -d $VIDEO_DIR ]]; then
   ((DRY_RUN)) && echo "🎥 Camera clips in $VIDEO_DIR$([[ $REMOVE_FROM_CARD == 1 ]] && echo ', then deleted from the card'):"
-  send ${card[@]+"${card[@]}"} --include='*.MP4' --exclude='*' "$VIDEO_DIR/" "$dest"
+  send "Copying clips" ${card[@]+"${card[@]}"} --include='*.MP4' --exclude='*' "$VIDEO_DIR/" "$dest"
 fi
 
 # These are converted copies (drop.sh), so they're removed from the Mac once they're on the NAS.
 if [[ -d $HOME/Movies/Home ]]; then
   ((DRY_RUN)) && echo "🎥 ~/Movies/Home (from drop.sh), then deleted from the Mac:"
-  send --remove-source-files --include='*.mp4' --exclude='*' "$HOME/Movies/Home/" "$dest"
+  send "Copying ~/Movies/Home" --remove-source-files --include='*.mp4' --exclude='*' "$HOME/Movies/Home/" "$dest"
 fi
 
 if ((DRY_RUN)); then echo "🎥 Videos: dry run, nothing copied."; else echo "🎥 Video sync complete."; fi
