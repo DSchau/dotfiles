@@ -6,8 +6,9 @@
 #   media.sh --dry-run  list what would be copied, converted and deleted (~/logs/media-dry-run.log); change nothing
 #   media.sh status     the last photo-backup run (reformat the card once all 4 jobs end with exit 0)
 #
-# ~/logs/media.log: what each run did, one line per file (tail -f it while it runs). Over 5 MB it moves to
-# media.log.1. MEDIA_DEBUG=1 media.sh writes each step's output with a bash trace to ~/logs/media.trace.log instead.
+# ~/logs/media.log: what each run did, one line per file (tail -f it while it runs). Each day's lines move to
+# ~/logs/archive/media-<date>.log.gz at midnight (htpc macOS/bin/rotate-logs). MEDIA_DEBUG=1 media.sh writes each
+# step's output with a bash trace to ~/logs/media.trace.log instead.
 set -uo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ ${1:-} == --dry-run || ${1:-} == dry-run ]] && export DRY_RUN=1
@@ -17,7 +18,6 @@ LOG="$LOG_DIR/media.log"
 TRACE="$LOG_DIR/media.trace.log"
 REPORT="$LOG_DIR/media-dry-run.log"
 mkdir -p "$LOG_DIR"
-if [[ -f $LOG ]] && (($(stat -f %z "$LOG") > 5 * 1024 * 1024)); then mv -f "$LOG" "$LOG.1"; fi
 
 remote() {
   if ((${ON_HTPC:-0})); then bash -c "$*"; else ssh $SSH_OPTS "$SSH_CONNECTION_STRING" "$@"; fi
