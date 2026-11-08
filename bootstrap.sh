@@ -96,6 +96,30 @@ function doIt() {
 		ln -sf /Applications/Zed.app/Contents/MacOS/cli ~/.local/bin/zed;
 	fi;
 
+	# Camera ingest on mount: a LaunchAgent runs scripts/media-on-mount.sh whenever a volume mounts; it only
+	# runs media.sh when the volume is a camera card with files on it (the camera on USB-C, or its SD card).
+	if [[ $(uname) == Darwin ]]; then
+		agent=~/Library/LaunchAgents/com.dschau.media-on-mount.plist;
+		mkdir -p ~/Library/LaunchAgents ~/logs;
+		cat >"$agent" <<-EOF
+		<?xml version="1.0" encoding="UTF-8"?>
+		<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+		<plist version="1.0">
+		<dict>
+		  <key>Label</key><string>com.dschau.media-on-mount</string>
+		  <key>ProgramArguments</key>
+		  <array><string>/bin/bash</string><string>$PWD/scripts/media-on-mount.sh</string></array>
+		  <key>StartOnMount</key><true/>
+		  <key>EnvironmentVariables</key>
+		  <dict><key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string></dict>
+		  <key>StandardErrorPath</key><string>$HOME/logs/media-on-mount.log</string>
+		</dict>
+		</plist>
+		EOF
+		launchctl bootout "gui/$(id -u)/com.dschau.media-on-mount" 2>/dev/null;
+		launchctl bootstrap "gui/$(id -u)" "$agent";
+	fi;
+
 	source ~/.bash_profile;
 }
 
