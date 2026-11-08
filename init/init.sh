@@ -38,10 +38,17 @@ else
   echo "~/.ssh/config exists"
 fi
 
+# ssh.dschau.dev is reached through a Cloudflare Tunnel. On a fresh machine
+# brew.sh (which installs cloudflared to /opt/homebrew/bin) hasn't run yet.
+if ! command -v cloudflared >/dev/null 2>&1 && command -v brew >/dev/null 2>&1; then
+  brew install cloudflared
+fi
+CLOUDFLARED=$(command -v cloudflared || echo /opt/homebrew/bin/cloudflared)
+
 cat <<EOF >> $SSH_FILE
 # Cloudflare Tunnel
 Host ssh.dschau.dev
-  ProxyCommand /opt/homebrew/bin/cloudflared access ssh --hostname %h
+  ProxyCommand ${CLOUDFLARED} access ssh --hostname %h
 
 # GitHub
 Host github.com
@@ -67,8 +74,12 @@ chmod 700 "$CLOUDFLARED_DIR"
 # Create connection with remote PC
 ## does not require password when ssh'ing to htpc
 ## runs after ~/.ssh/config has the Cloudflare ProxyCommand; times out instead of hanging
-ssh-copy-id -o ConnectTimeout=15 -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev \
-  || echo "WARNING: ssh-copy-id to ssh.dschau.dev failed; re-run later: ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev"
+if [ -x "$CLOUDFLARED" ]; then
+  ssh-copy-id -o ConnectTimeout=15 -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev \
+    || echo "WARNING: ssh-copy-id to ssh.dschau.dev failed; re-run later: ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev"
+else
+  echo "Skipping ssh-copy-id: cloudflared not installed yet. Run ./brew.sh, then: ssh-copy-id -i ~/.ssh/id_ed25519.pub dschau@ssh.dschau.dev"
+fi
 
 echo "Please make sure to add these credentials to Github"
 open https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
