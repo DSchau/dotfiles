@@ -111,6 +111,7 @@ brew install cloudflared
 brew install jq
 brew install kubernetes-cli
 brew install just
+brew install pnpm # independent of the nvm-managed node, unlike `npm install -g`
 brew install rust
 brew install bat # a way better "cat"
 brew install gh # github cli
