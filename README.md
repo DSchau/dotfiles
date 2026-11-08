@@ -63,7 +63,8 @@ The Keychain comes first because the 1Password CLI has to be approved separately
 Copies photos and videos from the camera's SD card (`/Volumes/Videos`) to the NAS through the HTPC, then starts the HTPC's `photo-backup` (R2 + Google Photos). The full flow is in [htpc-knowledge CAMERA.md](https://github.com/DSchau/htpc-knowledge/blob/main/CAMERA.md).
 
 - `media` (`scripts/media.sh`): runs `videos.sh` and `pictures.sh`, then starts `photo-backup` on the HTPC only if both succeeded. Logs to `~/logs/media.log`. It refuses to run off the home network (`ALLOW_REMOTE=1` overrides)
-- `media status`: the last `photo-backup` run. Files stay on the card; reformat it in the camera once all four jobs end with `exit 0` (or set `REMOVE_FROM_CARD=1` to delete them from the card as soon as they're on the NAS)
+- `media status`: the last `photo-backup` run. Card files are deleted once they're on the NAS (`REMOVE_FROM_CARD=0` keeps them; then reformat once all four jobs end with `exit 0`)
+- `media-on-mount.sh`: runs `media` automatically when the camera (USB-C, Mass Storage mode) or its SD card mounts. `bootstrap.sh` installs it as the LaunchAgent `com.dschau.media-on-mount` (`StartOnMount`); once per mount, only for volumes with `DCIM/` or `PRIVATE/M4ROOT/`, and not while `media` is already running. Notifications say when the card is seen, and when the copy finishes or fails (a failed run is retried by plugging it in again); output goes to `~/logs/media-on-mount.log`. The first run may ask to let `bash` access removable volumes. Off: `launchctl bootout gui/$(id -u)/com.dschau.media-on-mount`
 - `pictures.sh`: copies the originals first, then converts only the files rsync sent: one `exiftool` call for the years, `sips` in parallel
 - `drop.sh`: `~/Movies/Drop/*.mov` → `~/Movies/Home/*.mp4`, remuxed when possible, otherwise re-encoded with VideoToolbox HEVC
 
